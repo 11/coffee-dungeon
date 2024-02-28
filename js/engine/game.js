@@ -1,15 +1,15 @@
-import Keyboard from './input/keyboard.js'
-import Mouse from './input/mouse.js'
+import Keyboard from './io/keyboard.js'
+import Mouse from './io/mouse.js'
 import SceneManager from './scenes/scene-manager.js'
-import AssetManager from './collections/asset-manager.js'
-import Viewport from './graphics/viewport.js'
+import AssetManager from './assets/asset-manager.js'
+import Viewport from './gfx/viewport.js'
 
 export default class Game {
   canvas = null
   ctx = null
   viewport = null
 
-  inputProcessor = null
+  inputManager = null
   mouse = null
   keyboard = null
 
@@ -32,7 +32,7 @@ export default class Game {
     this.viewport = new Viewport(this.canvas)
 
     // managing inputs
-    this.inputProcessor = null 
+    this.inputManager = null 
     this.keyboard = new Keyboard(this.canvas)
     this.keyboard.create()
     this.mouse = new Mouse(this.canvas, null)
@@ -76,14 +76,6 @@ export default class Game {
     this.sceneManager.initialize()
   }
 
-  #input() {
-    if (!this.inputProcessor || !this.inputManager) {
-      return
-    }
-
-    this.inputManager.poll()
-  }
-
   #update() {
     this.sceneManager.update()
   }
@@ -93,7 +85,6 @@ export default class Game {
   }
 
   start() {
-    this.#input()
     this.#update()
     this.#draw()
 
@@ -108,13 +99,13 @@ export default class Game {
   /**
    * @param {InputProcessor} value
    */
-  set InputProcessor(value) {
+  set InputManager(value) {
     if (!value) {
       console.error('Input Processor cannot be null')
     }
 
-    this.inputProcessor = value  
-    this.mouse.InputProcessor = value
+    this.inputManager = value  
+    this.mouse.InputManager = value
   }
 
   get SceneManager() {

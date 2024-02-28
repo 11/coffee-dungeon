@@ -1,5 +1,5 @@
-import Camera from './camera.js'
-import TextureRegion from './texture-region.js'
+import OrthographicCamera from './orthographic-camera.js'
+import TextureRegion from '../assets/texture-region.js'
 import { NotImplementedError } from '../errors.js'
 
 export default class SpriteRenderer {
@@ -16,7 +16,7 @@ export default class SpriteRenderer {
 
   /**
    * 
-   * @param {Camera} camera 
+   * @param {OrthographicCamera} camera 
    */
   begin(camera = null) {
     this.camera = camera

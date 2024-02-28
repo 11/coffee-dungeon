@@ -1,8 +1,8 @@
 import { Vector2 } from '../engine/threejs-math/index.js'
 import Tile from './tile.js'
-import InputProcessor from '../engine/input/input-processor.js'
+import InputManager from '../engine/io/input-manager.js'
 
-export default class Controller extends InputProcessor {
+export default class Controller extends InputManager {
   iHat = new Vector2(1, 0.5).multiplyScalar(Tile.SIZE)
   jHat = new Vector2(-1, 0.5).multiplyScalar(Tile.SIZE)
 

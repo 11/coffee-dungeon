@@ -1,8 +1,8 @@
 import { Vector2 } from '../engine/threejs-math/index.js'
-import Color from '../engine/graphics/color.js'
-import TextureRegion from '../engine/graphics/texture-region.js'
-import SpriteRenderer from '../engine/graphics/sprite-renderer.js'
-import ShapeRenderer from '../engine/graphics/shape-renderer.js'
+import Color from '../engine/gfx/color.js'
+import TextureRegion from '../engine/assets/texture-region.js'
+import SpriteRenderer from '../engine/gfx/sprite-renderer.js'
+import ShapeRenderer from '../engine/gfx/shape-renderer.js'
 
 export default class Tile {
   static SIZE = 64

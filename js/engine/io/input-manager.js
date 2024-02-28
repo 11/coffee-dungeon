@@ -1,4 +1,4 @@
-export default class InputProcessor {
+export default class InputManager {
   mouseUp(keycode, x, y) {
     console.log('Mouse Up', keycode, x, y)
   }

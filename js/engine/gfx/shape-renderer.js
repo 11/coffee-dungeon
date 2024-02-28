@@ -1,5 +1,5 @@
 import Color from './color.js'
-import Camera from './camera.js'
+import OrthographicCamera from './orthographic-camera.js'
 import { ValidationError } from '../errors.js'
 
 export default class ShapeRenderer {
@@ -16,7 +16,7 @@ export default class ShapeRenderer {
    * @param {Color} color 
    * @param {boolean} fill 
    * @param {Number} lineWidth 
-   * @param {Camera} camera 
+   * @param {OrthographicCamera} camera 
    */
   begin(camera = null) {
     if (this.fill) {

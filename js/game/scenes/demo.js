@@ -1,8 +1,8 @@
 import Scene from '../../engine/scenes/scene.js'
-import ScreenUtils from '../../engine/graphics/screen-utils.js'
+import ScreenUtils from '../../engine/gfx/screen-utils.js'
 import Controller from '../controller.js'
-import Camera from '../../engine/graphics/camera.js'
-import SpriteRenderer from '../../engine/graphics/sprite-renderer.js'
+import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
+import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 
 import Grid from '../grid.js'
 
@@ -21,10 +21,10 @@ export default class DemoScreen extends Scene {
     console.log(window.game.AssetManager.toString())
 
     // configure game inputs
-    window.game.InputProcessor = new Controller()
+    window.game.InputManager = new Controller()
 
     this.spriteRenderer = new SpriteRenderer()
-    this.camera = new Camera()
+    this.camera = new OrthographicCamera()
     this.camera.translate(
       -window.game.Viewport.Width / 2,
       -window.game.Viewport.Height / 6

@@ -1,6 +1,6 @@
 import { Vector2 } from '../threejs-math/index.js'
 
-export default class Camera {
+export default class OrthographicCamera {
   position = new Vector2(0, 0)
 
   /**

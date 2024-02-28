@@ -1,4 +1,4 @@
-import DemoScreen from './game/screens/demo.js'
+import DemoScreen from './game/scenes/demo.js'
 import Game from './engine/game.js'
 
 window.game = new Game()

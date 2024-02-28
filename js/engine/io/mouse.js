@@ -5,39 +5,39 @@ export default class Mouse {
 
   canvas = null
   canvasRect = null
-  inputProcessor = null
+  inputManager = null
 
-  constructor(canvas, inputProcessor) {
+  constructor(canvas, inputManager) {
     this.canvas = canvas
     this.canvasRect = canvas.getBoundingClientRect()
-    this.inputProcessor = inputProcessor
+    this.inputManager = inputManager
   }
 
   #onMouseMove(event) {
     const x = Math.floor(event.clientX - this.canvasRect.x)
     const y = Math.floor(event.clientY - this.canvasRect.y)
-    this.inputProcessor.mouseMoved(x, y)
+    this.inputManager.mouseMoved(x, y)
   }
 
   #onMouseUp(event) {
     const button = event.button
     const x = Math.floor(event.clientX - this.canvasRect.x)
     const y = Math.floor(event.clientY - this.canvasRect.y)
-    this.inputProcessor.mouseUp(button, x, y)
+    this.inputManager.mouseUp(button, x, y)
   }
 
   #onMouseDown(event) {
     const button = event.button
     const x = Math.floor(event.clientX - this.canvasRect.x)
     const y = Math.floor(event.clientY - this.canvasRect.y)
-    this.inputProcessor.mouseDown(button, x, y)
+    this.inputManager.mouseDown(button, x, y)
   }
 
   #onMouseClick(event) {
     const button = event.button
     const x = Math.floor(event.clientX - this.canvasRect.x)
     const y = Math.floor(event.clientY - this.canvasRect.y)
-    this.inputProcessor.mousePressed(button, x, y)
+    this.inputManager.mousePressed(button, x, y)
   }
 
   create() {
@@ -54,12 +54,11 @@ export default class Mouse {
     this.canvas.removeEventListener('click', this.#onMouseClick.bind(this))
   }
 
-  set InputProcessor(value) {
+  set InputManager(value) {
     if (!value) {
-      console.error('Input Processor cannot be null')
+      console.error('Input Manager cannot be null')
     }
-
-    this.inputProcessor = value  
+    this.inputManager = value  
   }
   
 
