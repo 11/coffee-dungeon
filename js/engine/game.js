@@ -16,6 +16,10 @@ export default class Game {
   sceneManager = null
   assetManager = null
 
+  /**
+   * 
+   * @param {String} canvasId 
+   */
   constructor(canvasId = 'canvas') {
     try {
       this.canvas = document.querySelector(canvasId)
@@ -41,11 +45,21 @@ export default class Game {
     this.assetManager = new AssetManager()
   }
 
+  /**
+   * 
+   * @param {String} id 
+   * @param {String} image 
+   */
   addImage(id, image) {
     this.assetManager.add(id, image)
   }
 
-  addScreen(id, screen) {
+  /**
+   * 
+   * @param {String} id 
+   * @param {String} screen 
+   */
+  addScene(id, screen) {
     if (typeof id !== 'string') {
       console.error('Scene id must be a string')
     }
@@ -53,7 +67,7 @@ export default class Game {
     this.sceneManager.addScreen(id, screen)
   }
 
-  setScreen(id) {
+  setScene(id) {
     if (!this.sceneManager.hasScreen(id)) {
       console.error(`Scene with id ${id} does not exist`)
     }
@@ -91,6 +105,9 @@ export default class Game {
     this.mouse.destroy()
   }
 
+  /**
+   * @param {InputProcessor} value
+   */
   set InputProcessor(value) {
     if (!value) {
       console.error('Input Processor cannot be null')
