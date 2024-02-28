@@ -1,41 +1,20 @@
 import Keyboard from './input/keyboard.js'
 import Mouse from './input/mouse.js'
-import ScreenManager from './screens/screen-manager.js'
+import SceneManager from './scenes/scene-manager.js'
 import AssetManager from './collections/asset-manager.js'
+import Viewport from './graphics/viewport.js'
 
 export default class Game {
   canvas = null
   ctx = null
+  viewport = null
 
-  camera = null
-  keyboard = null
-  mouse = null
   inputProcessor = null
-  inputManager = null
-  screenManager = null
+  mouse = null
+  keyboard = null
+
+  sceneManager = null
   assetManager = null
-
-  set InputProcessor(value) {
-    if (!value) {
-      console.error('Input Processor cannot be null')
-    }
-
-    this.inputProcessor = value  
-    this.mouse.InputProcessor = value
-  }
-
-  get ScreenManager() {
-    return this.screenManager
-  }
-
-  
-  get AssetManager() {
-    return this.assetManager
-  }
-
-  get RenderContext() {
-    return this.ctx
-  }
 
   constructor(canvasId = 'canvas') {
     try {
@@ -45,17 +24,20 @@ export default class Game {
       console.error(`Could not find canvas with id: ${canvasId}`)
     }
 
+    // screen details
+    this.viewport = new Viewport(this.canvas)
+
     // managing inputs
     this.inputProcessor = null 
-
     this.keyboard = new Keyboard(this.canvas)
     this.keyboard.create()
-
     this.mouse = new Mouse(this.canvas, null)
     this.mouse.create()
 
+    // manage different screens
+    this.sceneManager = new SceneManager()
 
-    this.screenManager = new ScreenManager()
+    // manage game
     this.assetManager = new AssetManager()
   }
 
@@ -65,19 +47,19 @@ export default class Game {
 
   addScreen(id, screen) {
     if (typeof id !== 'string') {
-      console.error('Screen id must be a string')
+      console.error('Scene id must be a string')
     }
 
-    this.screenManager.addScreen(id, screen)
+    this.sceneManager.addScreen(id, screen)
   }
 
   setScreen(id) {
-    if (!this.screenManager.hasScreen(id)) {
-      console.error(`Screen with id ${id} does not exist`)
+    if (!this.sceneManager.hasScreen(id)) {
+      console.error(`Scene with id ${id} does not exist`)
     }
 
-    this.screenManager.setScreen(id)
-    this.screenManager.initialize()
+    this.sceneManager.setScreen(id)
+    this.sceneManager.initialize()
   }
 
   #input() {
@@ -89,11 +71,11 @@ export default class Game {
   }
 
   #update() {
-    this.screenManager.update()
+    this.sceneManager.update()
   }
 
   #draw() {
-    this.screenManager.draw(this.ctx)
+    this.sceneManager.draw(this.ctx)
   }
 
   start() {
@@ -107,5 +89,30 @@ export default class Game {
   end() {
     this.keyboard.destroy()
     this.mouse.destroy()
+  }
+
+  set InputProcessor(value) {
+    if (!value) {
+      console.error('Input Processor cannot be null')
+    }
+
+    this.inputProcessor = value  
+    this.mouse.InputProcessor = value
+  }
+
+  get SceneManager() {
+    return this.sceneManager
+  }
+  
+  get AssetManager() {
+    return this.assetManager
+  }
+
+  get RenderContext() {
+    return this.ctx
+  }
+
+  get Viewport() {
+    return this.viewport
   }
 }

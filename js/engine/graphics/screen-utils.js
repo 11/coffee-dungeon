@@ -1,10 +1,6 @@
 import Color from './color.js'
 
 export default class ScreenUtils {
-  static canvas = document.querySelector('canvas')
-  static WIDTH = ScreenUtils.canvas.clientWidth
-  static HEIGHT = ScreenUtils.canvas.clientHeight
-
   /**
    *
    * @param {CanvasRenderingContext2D} ctx

@@ -1,4 +1,4 @@
-export default class Screen {
+export default class Scene {
   update() {
     console.log('update')
   }
