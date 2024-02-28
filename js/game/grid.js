@@ -1,6 +1,4 @@
 import Utils from '../engine/utils.js'
-import TextureRegion from '../engine/graphics/texture-region.js'
-
 import Tile from './tile.js'
 
 export default class Grid {
@@ -26,18 +24,14 @@ export default class Grid {
    * @returns [][]Tile
    */
   #createGrid(size) {
-    // these offsets center the grid on screen
-    const xOffset = 7
-    const yOffset = -3
-
     const grid = []
     for (let i = 0; i < size; i++) {
       grid[i] = []
 
       for (let j = 0; j < size; j++) {
-        const x = i + xOffset
-        const y = j + yOffset
-        grid[i][j] = new Tile(x, y, 'dirt-tileset', this.debug)
+        const x = i
+        const y = j
+        grid[i][j] = new Tile('dirt-tileset', x, y, this.debug)
       }
     }
 
@@ -46,13 +40,14 @@ export default class Grid {
 
   /**
    *
-   * @param {CanvasRenderingContext2D} ctx
+   * @param {SpriteRenderer} spriteRenderer
+   * @param {Camera} camera
    */
-  draw(ctx) {
+  draw(spriteRenderer, camera) {
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
         const tile = this.grid[i][j]
-        tile.draw(ctx)
+        tile.draw(spriteRenderer, camera)
       }
     }
   }

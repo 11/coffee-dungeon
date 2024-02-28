@@ -1,6 +1,5 @@
 import Keyboard from './input/keyboard.js'
-import Mouse from './input/Mouse.js'
-import InputManager from './input/input-manager.js'
+import Mouse from './input/mouse.js'
 import ScreenManager from './screens/screen-manager.js'
 import AssetManager from './collections/asset-manager.js'
 
@@ -8,6 +7,7 @@ export default class Game {
   canvas = null
   ctx = null
 
+  camera = null
   keyboard = null
   mouse = null
   inputProcessor = null
@@ -15,21 +15,26 @@ export default class Game {
   screenManager = null
   assetManager = null
 
-  set InputProcessor(newInputProcesor) {
-    if (!newInputProcesor) {
+  set InputProcessor(value) {
+    if (!value) {
       console.error('Input Processor cannot be null')
     }
 
-    this.inputProcessor = newInputProcesor
-    this.inputManager.InputProcessor = newInputProcesor
+    this.inputProcessor = value  
+    this.mouse.InputProcessor = value
   }
 
   get ScreenManager() {
     return this.screenManager
   }
 
+  
   get AssetManager() {
     return this.assetManager
+  }
+
+  get RenderContext() {
+    return this.ctx
   }
 
   constructor(canvasId = 'canvas') {
@@ -41,14 +46,14 @@ export default class Game {
     }
 
     // managing inputs
+    this.inputProcessor = null 
+
     this.keyboard = new Keyboard(this.canvas)
     this.keyboard.create()
 
-    this.mouse = new Mouse(this.canvas)
+    this.mouse = new Mouse(this.canvas, null)
     this.mouse.create()
 
-    this.inputProcessor = null
-    this.inputManager = new InputManager(this.mouse, this.keyboard, this.inputProcessor)
 
     this.screenManager = new ScreenManager()
     this.assetManager = new AssetManager()
@@ -80,7 +85,7 @@ export default class Game {
       return
     }
 
-    // this.inputManager.poll()
+    this.inputManager.poll()
   }
 
   #update() {

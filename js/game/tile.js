@@ -1,116 +1,104 @@
 import { Vector2 } from '../engine/threejs-math/index.js'
-import Colors from '../engine/graphics/colors.js'
+import Color from '../engine/graphics/color.js'
 import TextureRegion from '../engine/graphics/texture-region.js'
+import SpriteRenderer from '../engine/graphics/sprite-renderer.js'
+import ShapeRenderer from '../engine/graphics/shape-renderer.js'
 
 export default class Tile {
   static SIZE = 64
 
-  pos = null
-  color = null
-  image = null
-  debug = true
+  textureRegion = null
 
+  debug = true
+  shapeRenderer = new ShapeRenderer()
+
+  position = null // position is the origin of the tile
   iHat = new Vector2(1, 0.5).multiplyScalar(Tile.SIZE)
   jHat = new Vector2(-1, 0.5).multiplyScalar(Tile.SIZE)
 
-  set Color(value) {
-    this.color = value
-  }
-
   /**
    *
+   * @param {imageId} string
    * @param {Number} x
    * @param {Number} y
-   * @param {imageId} string
    * @param {String} color
    * @param {Boolean} debug
    */
-  constructor(x, y, imageId = null, debug = true, color = Colors.RED) {
-    this.pos = new Vector2(x, y)
+  constructor(imageId, x, y, debug = true) {
+    this.position = new Vector2(x, y)
     this.#toIsometric()
 
-    this.image = new TextureRegion(
+    this.textureRegion = new TextureRegion(
       imageId,
       102, 0, // spritesheet dx and dy
       102, 101, // spritesheet dw and dh
-      this.pos.x - Tile.SIZE, // subtract 1 tile's size to render image based on the center of a tile
-      this.pos.y - Tile.SIZE / 2, // same logic applies for a tile's height, but need to half the height to force the isometric perspective
-      Tile.SIZE * 2, Tile.SIZE * 2 // double the size of the image to file the grid cell
     )
 
     this.debug = debug
-    this.color = color
   }
 
   #toIsometric() {
     const i = this.iHat.clone()
-    i.multiplyScalar(this.pos.x)
+    i.multiplyScalar(this.position.x)
 
     const j = this.jHat.clone()
-    j.multiplyScalar(this.pos.y)
+    j.multiplyScalar(this.position.y)
 
-    this.pos.x = i.x + j.x
-    this.pos.y = i.y + j.y
+    this.position.x = i.x + j.x
+    this.position.y = i.y + j.y
+  }
+
+  /**
+   * 
+   * @param {Camera} camera 
+   */
+  #drawDebugLines(camera) {
+    const topCorner = new Vector2(this.position.x, this.position.y - Tile.SIZE / 2)
+    const rightCorner = new Vector2(this.position.x + Tile.SIZE, this.position.y)
+    const bottomCorner = new Vector2(this.position.x, this.position.y + Tile.SIZE / 2)
+    const leftCorner = new Vector2(this.position.x - Tile.SIZE, this.position.y)
+
+    this.shapeRenderer.StrokeStyle = Color.RED
+    this.shapeRenderer.LineWidth = 4
+    this.shapeRenderer.begin(camera)
+    this.shapeRenderer.drawPolygon(
+      topCorner.x, topCorner.y, 
+      rightCorner.x, rightCorner.y,
+      bottomCorner.x, bottomCorner.y,
+      leftCorner.x, leftCorner.y,
+    )
+    this.shapeRenderer.end()
   }
 
   /**
    *
-   * @param {CanvasRenderingContext2D} ctx
+   * @param {SpriteRenderer} spriteRenderer
    */
-  #drawDebugLines(ctx) {
-    const topCorner = new Vector2(this.pos.x, this.pos.y - Tile.SIZE / 2)
-    const rightCorner = new Vector2(this.pos.x + Tile.SIZE, this.pos.y)
-    const bottomCorner = new Vector2(this.pos.x, this.pos.y + Tile.SIZE / 2)
-    const leftCorner = new Vector2(this.pos.x - Tile.SIZE, this.pos.y)
-    const center = this.pos
+  #drawImage(spriteRenderer, camera) {
+    const trX = this.position.x - Tile.SIZE // subtract 1 tile's size to render image based on the center of a tile
+    const trY = this.position.y - Tile.SIZE / 2 // same logic applies for a tile's height, but need to half the height to force the isometric perspective
+    const trW = Tile.SIZE * 2 // double the size of the image to fill the grid cell
+    const trH = Tile.SIZE * 2 // double the size of the image to file the grid cell
 
-    ctx.strokeStyle = this.color
-    ctx.fillStyle = this.color
-    ctx.lineWidth = 3
-    ctx.beginPath()
+    const alpha = this.debug 
+      ? 0.3
+      : 1
 
-    ctx.moveTo(topCorner.x, topCorner.y)
-    ctx.lineTo(leftCorner.x, leftCorner.y)
-
-    ctx.moveTo(topCorner.x, topCorner.y)
-    ctx.lineTo(rightCorner.x, rightCorner.y)
-
-    ctx.moveTo(bottomCorner.x, bottomCorner.y)
-    ctx.lineTo(leftCorner.x, leftCorner.y)
-
-    ctx.moveTo(bottomCorner.x, bottomCorner.y)
-    ctx.lineTo(rightCorner.x, rightCorner.y)
-
-    ctx.stroke()
+    spriteRenderer.begin(camera)
+    spriteRenderer.drawTextureRegion(this.textureRegion, trX, trY, trW, trH, alpha)
+    spriteRenderer.end()
   }
 
   /**
    *
-   * @param {CanvasRenderingContext2D} ctx
+   * @param {SpriteRenderer} spriteRenderer 
+   * @param {Camera} camera
    */
-  #drawImage(ctx) {
-    if (!this.image) {
-      return
-    }
+  draw(spriteRenderer, camera) {
+    this.#drawImage(spriteRenderer, camera)
 
     if (this.debug) {
-      ctx.globalAlpha = 0.5
-      this.image.draw(ctx)
-      ctx.globalAlpha = 1
-    } else {
-      this.image.draw(ctx)
-    }
-  }
-
-  /**
-   *
-   * @param {CanvasRenderingContext2D} ctx
-   */
-  draw(ctx) {
-    this.#drawImage(ctx)
-
-    if (this.debug) {
-      this.#drawDebugLines(ctx)
+      this.#drawDebugLines(camera)
     }
   }
 }

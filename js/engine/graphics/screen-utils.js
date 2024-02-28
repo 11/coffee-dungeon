@@ -1,4 +1,4 @@
-import Color from './colors.js'
+import Color from './color.js'
 
 export default class ScreenUtils {
   static canvas = document.querySelector('canvas')
