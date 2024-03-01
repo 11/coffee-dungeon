@@ -3,6 +3,7 @@ import Color from '../engine/gfx/color.js'
 import TextureRegion from '../engine/assets/texture-region.js'
 import SpriteRenderer from '../engine/gfx/sprite-renderer.js'
 import ShapeRenderer from '../engine/gfx/shape-renderer.js'
+import OrthographicCamera from '../engine/gfx/orthographic-camera.js'
 
 export default class Tile {
   static SIZE = 64
@@ -11,6 +12,9 @@ export default class Tile {
 
   debug = true
   shapeRenderer = new ShapeRenderer()
+
+  gridX = null
+  gridY = null
 
   position = null // position is the origin of the tile
   iHat = new Vector2(1, 0.5).multiplyScalar(Tile.SIZE)
@@ -25,8 +29,11 @@ export default class Tile {
    * @param {Boolean} debug
    */
   constructor(imageId, x, y, debug = true) {
+    this.gridX = x
+    this.gridY = y
+
     this.position = new Vector2(x, y)
-    this.#toIsometric()
+    this.#gridCoordinateToIsometricCoordinate()
 
     this.textureRegion = new TextureRegion(
       imageId,
@@ -37,12 +44,12 @@ export default class Tile {
     this.debug = debug
   }
 
-  #toIsometric() {
+  #gridCoordinateToIsometricCoordinate() {
     const i = this.iHat.clone()
-    i.multiplyScalar(this.position.x)
+    i.multiplyScalar(this.gridX)
 
     const j = this.jHat.clone()
-    j.multiplyScalar(this.position.y)
+    j.multiplyScalar(this.gridY)
 
     this.position.x = i.x + j.x
     this.position.y = i.y + j.y
@@ -50,17 +57,19 @@ export default class Tile {
 
   /**
    * 
-   * @param {Camera} camera 
+   * @param {OrthographicCamera} camera 
    */
-  #drawDebugLines(camera) {
-    const topCorner = new Vector2(this.position.x, this.position.y - Tile.SIZE / 2)
-    const rightCorner = new Vector2(this.position.x + Tile.SIZE, this.position.y)
-    const bottomCorner = new Vector2(this.position.x, this.position.y + Tile.SIZE / 2)
-    const leftCorner = new Vector2(this.position.x - Tile.SIZE, this.position.y)
+  #drawIsometricDebugLines(camera) {
+    const half = Tile.SIZE / 2
+    const topCorner = new Vector2(this.position.x, this.position.y)
+    const rightCorner = new Vector2(this.position.x + Tile.SIZE, this.position.y + half)
+    const bottomCorner = new Vector2(this.position.x, this.position.y + Tile.SIZE)
+    const leftCorner = new Vector2(this.position.x - Tile.SIZE, this.position.y + half)
 
     this.shapeRenderer.StrokeStyle = Color.RED
     this.shapeRenderer.LineWidth = 4
     this.shapeRenderer.begin(camera)
+    this.shapeRenderer.drawCircle(this.position.x, this.position.y, 5)
     this.shapeRenderer.drawPolygon(
       topCorner.x, topCorner.y, 
       rightCorner.x, rightCorner.y,
@@ -71,21 +80,50 @@ export default class Tile {
   }
 
   /**
+   * 
+   * @param {OrthographicCamera} camera 
+   */
+  #drawMouseTileDebugLines(camera) {
+    // just so hapens that the gridX and gridY, when added together 
+    // is the forumla for the mouse grid 
+    if ((this.gridX + this.gridY) % 2 !== 0) {
+      return
+    }
+
+    const half = Tile.SIZE / 2
+    const topLeftCorner = new Vector2(this.position.x - Tile.SIZE, this.position.y)
+    const topRightCorner = new Vector2(this.position.x + Tile.SIZE, this.position.y)
+    const bottomLeftCorner = new Vector2(this.position.x - Tile.SIZE, this.position.y + Tile.SIZE)
+    const bottomRightCorner = new Vector2(this.position.x + Tile.SIZE, this.position.y + Tile.SIZE)
+
+    this.shapeRenderer.StrokeStyle = Color.WHITE
+    this.shapeRenderer.LineWidth = 4
+    this.shapeRenderer.begin(camera)
+    this.shapeRenderer.drawPolygon(
+      topLeftCorner.x, topLeftCorner.y, 
+      topRightCorner.x, topRightCorner.y,
+      bottomRightCorner.x, bottomRightCorner.y,
+      bottomLeftCorner.x, bottomLeftCorner.y,
+    )
+    this.shapeRenderer.end()
+  }
+
+  /**
    *
    * @param {SpriteRenderer} spriteRenderer
    */
   #drawImage(spriteRenderer, camera) {
-    const trX = this.position.x - Tile.SIZE // subtract 1 tile's size to render image based on the center of a tile
-    const trY = this.position.y - Tile.SIZE / 2 // same logic applies for a tile's height, but need to half the height to force the isometric perspective
-    const trW = Tile.SIZE * 2 // double the size of the image to fill the grid cell
-    const trH = Tile.SIZE * 2 // double the size of the image to file the grid cell
+    const textureX = this.position.x - Tile.SIZE // subtract 1 tile's size to render image based on the center of a tile
+    const textureY = this.position.y// same logic applies for a tile's height, but need to half the height to force the isometric perspective
+    const textureW = Tile.SIZE * 2 // double the size of the image to fill the grid cell
+    const textureH = Tile.SIZE * 2 // double the size of the image to file the grid cell
 
     const alpha = this.debug 
-      ? 0.3
+      ? 0.5
       : 1
 
     spriteRenderer.begin(camera)
-    spriteRenderer.drawTextureRegion(this.textureRegion, trX, trY, trW, trH, alpha)
+    spriteRenderer.drawTextureRegion(this.textureRegion, textureX, textureY, textureW, textureH, alpha)
     spriteRenderer.end()
   }
 
@@ -98,7 +136,16 @@ export default class Tile {
     this.#drawImage(spriteRenderer, camera)
 
     if (this.debug) {
-      this.#drawDebugLines(camera)
+      this.#drawIsometricDebugLines(camera)
+      this.#drawMouseTileDebugLines(camera)
     }
+  }
+
+  insert() {
+
+  }
+
+  remove() {
+
   }
 }

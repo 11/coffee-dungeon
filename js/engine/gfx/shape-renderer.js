@@ -93,11 +93,11 @@ export default class ShapeRenderer {
    */
   drawCircle(x = 0, y = 0, radius = 1) {
     if (this.camera) {
-      this.x += this.camera.Position.x
-      this.y += this.camera.Position.y
+      x += this.camera.Position.x
+      y += this.camera.Position.y
     }
 
-    this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    this.ctx.arc(x, y, radius, 0, 2 * Math.PI)
   }
 
   /**
@@ -109,8 +109,8 @@ export default class ShapeRenderer {
    */
   drawRectangle(x = 0, y = 0, width = 100, height = 100) {
     if (this.camera) {
-      this.x += this.camera.Position.x
-      this.y += this.camera.Position.y
+      x += this.camera.Position.x
+      y += this.camera.Position.y
     }
 
     this.ctx.rect(x, y, width, height)

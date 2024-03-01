@@ -1,30 +1,23 @@
 import { Vector2 } from '../engine/threejs-math/index.js'
-import Tile from './tile.js'
 import InputManager from '../engine/io/input-manager.js'
+import OrthographicCamera from '../engine/gfx/orthographic-camera.js'
+import Tile from './tile.js'
 
 export default class Controller extends InputManager {
-  iHat = new Vector2(1, 0.5).multiplyScalar(Tile.SIZE)
-  jHat = new Vector2(-1, 0.5).multiplyScalar(Tile.SIZE)
+  camera = null
 
-  mousePosition = new Vector2(0, 0)
-  
-  constructor() {
+  /**
+   * 
+   * @param {OrthographicCamera} camera 
+   */
+  constructor(camera) {
     super()
-  }
 
-  #toIsometric(x, y) {
-    const i = this.iHat.clone()
-    i.multiplyScalar(x / Tile.SIZE)
-
-    const j = this.jHat.clone()
-    j.multiplyScalar(y / Tile.SIZE)
-
-    this.mousePosition.x = i.x + j.x
-    this.mousePosition.y = i.y + j.y
+    this.camera = camera
   }
 
   mouseUp(keycode, x, y) {
-    console.log('Mouse Up', keycode, x, y)
+    console.log('Mouse Up')
   }
 
   mouseDown(keycode, x, y) {
@@ -36,9 +29,9 @@ export default class Controller extends InputManager {
   }
 
   mouseMoved(x, y) {
-    this.#toIsometric(x, y)
-    console.log('Mouse Moved: ', x, y)
-    console.log('Moused Moved Isometric: ', this.mousePosition.x, this.mousePosition.y)
+    const mouseGrid = new Vector2(Math.floor(x / 128), Math.floor(y / 64))
+    const mouseGridCellOffset = new Vector2(x % 128, y % 64) 
+    console.log('Mouse Move', mouseGrid)
   }
 
   keyUp(keycode) {

@@ -1,10 +1,13 @@
 import Utils from '../engine/utils.js'
 import Tile from './tile.js'
+import ShapeRenderer from '../engine/gfx/shape-renderer.js'
 
 export default class Grid {
   size = null
   grid = null
   debug = true
+
+  shapeRenderer = null
 
   /**
    *
@@ -16,6 +19,7 @@ export default class Grid {
     this.debug = debug
 
     this.grid = this.#createGrid(this.size)
+    this.shapeRenderer = new ShapeRenderer()
   }
 
   /**
@@ -38,17 +42,29 @@ export default class Grid {
     return grid
   }
 
-  /**
-   *
-   * @param {SpriteRenderer} spriteRenderer
-   * @param {Camera} camera
-   */
-  draw(spriteRenderer, camera) {
+  #drawIsometricGrid(spriteRenderer, camera) {
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
         const tile = this.grid[i][j]
         tile.draw(spriteRenderer, camera)
       }
     }
+  }
+
+  /**
+   *
+   * @param {SpriteRenderer} spriteRenderer
+   * @param {Camera} camera
+   */
+  draw(spriteRenderer, camera) {
+    this.#drawIsometricGrid(spriteRenderer, camera)
+  }
+
+  insert(gridX, gridY) {
+
+  }
+
+  remove(gridX, gridY) {
+
   }
 }
