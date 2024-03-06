@@ -26,11 +26,6 @@ test('isInsideTriangleArea', () => {
     Tile.SCREEN_SIZE_X, Tile.SCREEN_SIZE_Y      // bottom right point
   ]
 
-  console.log(topLeftTriangle)
-  console.log(topRightTriangle)
-  console.log(bottomLeftTriangle)
-  console.log(bottomRightTriangle)
-
   // should pass for upper left triangle
   const test1 = [20, 18]
   let [px, py] = test1
