@@ -5,7 +5,7 @@ import ShapeRenderer from '../engine/gfx/shape-renderer.js'
 export default class Grid {
   size = null
   grid = null
-  debug = true
+  debug = false
 
   shapeRenderer = null
 
@@ -14,7 +14,7 @@ export default class Grid {
    * @param {Number} size
    * @param {String} color
    */
-  constructor(size = 10, debug = true) {
+  constructor(size = 10, debug = false) {
     this.size = Utils.clamp(size, 1, 50)
     this.debug = debug
 

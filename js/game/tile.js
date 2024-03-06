@@ -13,7 +13,7 @@ export default class Tile {
 
   textureRegion = null
 
-  debug = true
+  debug = false
   shapeRenderer = new ShapeRenderer()
 
   gridX = null
@@ -31,7 +31,7 @@ export default class Tile {
    * @param {String} color
    * @param {Boolean} debug
    */
-  constructor(imageId, gridX, gridY, debug = true) {
+  constructor(imageId, gridX, gridY, debug = false) {
     this.gridX = gridX
     this.gridY = gridY
     this.position = this.#gridCoordinateToIsometricCoordinate(gridX, gridY)

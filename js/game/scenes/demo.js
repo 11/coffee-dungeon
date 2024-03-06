@@ -30,13 +30,15 @@ export default class Demo extends Scene {
 
     // load game assets
     window.game.addImage('dirt-tileset', 'asset-dirt-tileset')
-    console.log(window.game.AssetManager.toString())
+    if (this.debug) {
+      console.log(window.game.AssetManager.toString())
+    }
 
     // configure game inputs
     window.game.InputManager = new Controller(this.camera)
 
     // load game world
-    this.grid = new Grid(8, true)
+    this.grid = new Grid(8, this.debug)
   }
 
   update() { }

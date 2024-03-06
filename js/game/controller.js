@@ -9,6 +9,8 @@ import Tile from './tile.js'
 import Grid from './grid.js'
 
 export default class Controller extends InputManager {
+  debug = false
+
   camera = null
   shapeRenderer = new ShapeRenderer()
 
@@ -31,10 +33,11 @@ export default class Controller extends InputManager {
    * 
    * @param {OrthographicCamera} camera 
    */
-  constructor(camera) {
+  constructor(camera, debug = true) {
     super()
 
     this.camera = camera
+    this.debug = debug
   }
 
   /**
@@ -73,8 +76,8 @@ export default class Controller extends InputManager {
 
   #toWorldSpace() {
     this.selected.set(
-      (this.cell.y - this.origin.y) + (this.cell.x - this.origin.x) - 1,
-      (this.cell.y - this.origin.y) - (this.cell.x - this.origin.x) - 1
+      (this.cell.y - this.origin.y) + (this.cell.x - this.origin.x) - 1, // we subtract 1 because our origin calculation is kinda broken atm
+      (this.cell.y - this.origin.y) - (this.cell.x - this.origin.x) - 1 // we substract 1 because our origin calculate is kinda broken atm
     )
 
     if (
@@ -86,7 +89,7 @@ export default class Controller extends InputManager {
       return
     }
 
-    const topLeftTriangle= [
+    const topLeftTriangle = [
       Tile.SCREEN_SIZE_X / 2, 0,                  // top mid point
       0, Tile.SCREEN_SIZE_Y / 2,                  // left mid point
       0, 0,                                       // top left point
@@ -127,8 +130,12 @@ export default class Controller extends InputManager {
   }
 
   mouseMoved(x, y) {
-    this.#renderDebugText(x, y)
-    // this.#renderDebugWorldTile(x, y)
+    if (debug) {
+      this.#renderDebugText(x, y)
+
+      // I don't really like this render debug world tile on, but it can be useful
+      // this.#renderDebugWorldTile(x, y)
+    }
   }
 
   mouseUp(keycode, x, y) {

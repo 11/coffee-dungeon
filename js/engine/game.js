@@ -5,6 +5,7 @@ import AssetManager from './assets/asset-manager.js'
 import Viewport from './gfx/viewport.js'
 
 export default class Game {
+  debug = false
   canvas = null
   ctx = null
   viewport = null
@@ -122,5 +123,16 @@ export default class Game {
 
   get Viewport() {
     return this.viewport
+  }
+
+  get Debug() {
+    return this.debug
+  }
+
+  /**
+   * @param {Boolean} value
+   */
+  set Debug(value) {
+    this.debug = value
   }
 }
