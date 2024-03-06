@@ -6,11 +6,25 @@
     <script type="module" src="./js/index.js" defer></script>
   </head>
   <body>
-    <div id="hidden">
-      <img src="./imgs/dirt-tileset.png" id="asset-dirt-tileset"/>
+    <div id="debug">
+      <section>
+        <h1>Screen space</h1>
+        <div id="mouse-screen">Mouse: <code></code></div>
+        <div id="camera-screen">Camera offset: <code></code></div>
+        <div id="origin-screen">Origin: <code></code></div>
+        <div id="cell-screen">Cell: <code></code></div>
+        <div id="offset-screen">Cell Offset: <code></code></div>
+      </section>
+      <section>
+        <h1> World space</h1>
+        <div id="selected-world">Selected: <code></code></div>
+      </section>
+    </div>
+    <div id="images" class="hidden">
+      <img src="./imgs/dirt-tileset.png" id="asset-dirt-tileset" />
     </div>
     <content id="game">
-      <canvas width="1280" height="720"></canvas>
+      <canvas width="1408" height="768"></canvas>
     </content>
   </body>
 </html>

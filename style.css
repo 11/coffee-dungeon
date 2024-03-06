@@ -21,6 +21,22 @@ canvas {
   border: 1px solid white;
 }
 
-#hidden {
+h1 {
+  margin: 0;
+}
+
+.hidden {
   display: none;
+}
+
+#debug {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  left: 1rem;
+  top: 1rem; 
+}
+
+section {
+  margin-bottom: 1.5rem;
 }

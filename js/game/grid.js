@@ -67,4 +67,8 @@ export default class Grid {
   remove(gridX, gridY) {
 
   }
+
+  get Size() {
+    return this.size
+  }
 }

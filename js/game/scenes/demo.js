@@ -4,7 +4,6 @@ import Controller from '../controller.js'
 import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
 import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 import Tile from '../tile.js'
-
 import Grid from '../grid.js'
 
 export default class Demo extends Scene {
@@ -25,8 +24,8 @@ export default class Demo extends Scene {
     // it back in an orthognal coordinate system, but kept the isometric scaling (x*1, y*.5)
     // this will make the mouse logic a bit easier to work out in the future
     this.camera.translate(
-      -(Tile.SIZE * 2) * 5,
-      -Tile.SIZE * 2,
+      -Tile.SCREEN_SIZE_X * 6 + Tile.WORLD_SIZE,
+      -Tile.SCREEN_SIZE_Y * 2
     )
 
     // load game assets
