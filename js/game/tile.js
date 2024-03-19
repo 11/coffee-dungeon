@@ -8,10 +8,10 @@ import OrthographicCamera from '../engine/gfx/orthographic-camera.js'
 export default class Tile {
   static SCREEN_SIZE_X = 128
   static SCREEN_SIZE_Y = 64
-
   static WORLD_SIZE = 64
 
-  textureRegion = null
+  actor = null
+  tileBackgroundTextureRegion = null
 
   debug = false
   shapeRenderer = new ShapeRenderer()
@@ -19,7 +19,7 @@ export default class Tile {
   gridX = null
   gridY = null
 
-  position = null // position is the origin of the tile
+  position = null // position is the top middle corner in isometric perspective
   iHat = new Vector2(1, 0.5).multiplyScalar(Tile.WORLD_SIZE)
   jHat = new Vector2(-1, 0.5).multiplyScalar(Tile.WORLD_SIZE)
 
@@ -34,15 +34,14 @@ export default class Tile {
   constructor(imageId, gridX, gridY, debug = false) {
     this.gridX = gridX
     this.gridY = gridY
-    this.position = this.#gridCoordinateToIsometricCoordinate(gridX, gridY)
-
-    this.textureRegion = new TextureRegion(
+    this.debug = debug
+    this.tileBackgroundTextureRegion = new TextureRegion(
       imageId,
       102, 0, // spritesheet dx and dy
       102, 101, // spritesheet dw and dh
     )
 
-    this.debug = debug
+    this.position = this.#gridCoordinateToIsometricCoordinate(gridX, gridY)
   }
 
   /**
@@ -120,7 +119,7 @@ export default class Tile {
    *
    * @param {SpriteRenderer} spriteRenderer
    */
-  #drawImage(spriteRenderer, camera) {
+  #drawTileBackgroundTextureRegion(spriteRenderer, camera) {
     const textureX = this.position.x - Tile.WORLD_SIZE // subtract 1 tile's size to render image based on the center of a tile
     const textureY = this.position.y// same logic applies for a tile's height, but need to half the height to force the isometric perspective
     const textureW = Tile.WORLD_SIZE * 2 // double the size of the image to fill the grid cell
@@ -131,7 +130,7 @@ export default class Tile {
       : 1
 
     spriteRenderer.begin(camera)
-    spriteRenderer.drawTextureRegion(this.textureRegion, textureX, textureY, textureW, textureH, alpha)
+    spriteRenderer.drawTextureRegion(this.tileBackgroundTextureRegion, textureX, textureY, textureW, textureH, alpha)
     spriteRenderer.end()
   }
 
@@ -141,7 +140,7 @@ export default class Tile {
    * @param {Camera} camera
    */
   draw(spriteRenderer, camera) {
-    this.#drawImage(spriteRenderer, camera)
+    this.#drawTileBackgroundTextureRegion(spriteRenderer, camera)
 
     if (this.debug) {
       this.#drawIsometricDebugLines(camera)
@@ -149,11 +148,27 @@ export default class Tile {
     }
   }
 
-  insert() {
-
+  /**
+   * 
+   * @param {Actor} actor 
+   */
+  insert(actor) {
+    this.actor = actor
   }
 
   remove() {
+    this.actor = null
+  }
 
+  get Actor() {
+    return this.actor
+  }
+
+  get GridX() {
+    return this.gridX
+  }
+
+  get GridY() {
+    return this.gridY
   }
 }

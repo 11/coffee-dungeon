@@ -1,5 +1,5 @@
-import SpriteRenderer  from '../gfx/sprite-renderer'
-import Camera from '../gfx/sprite-renderer'
+import SpriteRenderer  from '../gfx/sprite-renderer.js'
+import OrthographicCamera from '../gfx/orthographic-camera.js'
 
 export default class Actor {
   x = 0
@@ -35,7 +35,7 @@ export default class Actor {
   /**
    * 
    * @param {SpriteRenderer} spriteRenderer 
-   * @param {Camera} camera 
+   * @param {OrthographicCamera} camera 
    */
   draw(spriteRenderer, camera) {
     console.log('Actor draw')

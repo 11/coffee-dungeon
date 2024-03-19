@@ -3,10 +3,11 @@ import Tile from './tile.js'
 import ShapeRenderer from '../engine/gfx/shape-renderer.js'
 
 export default class Grid {
-  size = null
-  grid = null
+  size = 10
   debug = false
 
+  grid = null
+  players = null
   shapeRenderer = null
 
   /**
@@ -51,6 +52,13 @@ export default class Grid {
     }
   }
 
+  #isInGrid(gridX, gridY) {
+    return gridX < 0 || 
+      gridX > this.size || 
+      gridY < 0 ||
+      gridY > this.size
+  }
+
   /**
    *
    * @param {SpriteRenderer} spriteRenderer
@@ -60,12 +68,36 @@ export default class Grid {
     this.#drawIsometricGrid(spriteRenderer, camera)
   }
 
-  insert(gridX, gridY) {
+  /**
+   * 
+   * @param {Number} gridX 
+   * @param {Number} gridY 
+   * @param {Actor} actor 
+   */
+  insertActor(gridX, gridY, actor) {
+    if (this.#isInGrid(gridX, gridY)) {
+      console.warn('grid.insertActor - not in grid')
+      return
+    }
 
+    const tile = this.grid[gridX][gridY]
+    tile.insertActor(actor)
   }
 
-  remove(gridX, gridY) {
+  /**
+   * 
+   * @param {Number} gridX 
+   * @param {Number} gridY 
+   * @param {Actor} actor 
+   */
+  removeActor(gridX, gridY) {
+    if (this.#isInGrid(gridX, gridY)) {
+      console.warn('grid.insertActor - not in grid')
+      return
+    }
 
+    const tile = this.grid[gridX][gridY]
+    tile.removeActor(actor)
   }
 
   get Size() {
