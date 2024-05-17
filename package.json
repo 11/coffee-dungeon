@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "jest",
-    "dev": "./bin/run_dev.sh"
+    "dev": "./bin/dev.sh"
   },
   "author": "",
   "license": "ISC",

@@ -1,14 +1,14 @@
-import { Vector2 } from '../engine/threejs-math/index.js'
-import Color from '../engine/gfx/color.js'
-import TextureRegion from '../engine/assets/texture-region.js'
-import SpriteRenderer from '../engine/gfx/sprite-renderer.js'
-import ShapeRenderer from '../engine/gfx/shape-renderer.js'
-import OrthographicCamera from '../engine/gfx/orthographic-camera.js'
+import { Vector2 } from '../threejs-math/index.js'
+import Color from '../gfx/color.js'
+import TextureRegion from '../assets/texture-region.js'
+import SpriteRenderer from '../gfx/sprite-renderer.js'
+import ShapeRenderer from '../gfx/shape-renderer.js'
+import OrthographicCamera from '../gfx/orthographic-camera.js'
 
 export default class Tile {
-  static SCREEN_SIZE_X = 128
-  static SCREEN_SIZE_Y = 64
   static WORLD_SIZE = 64
+  static SCREEN_SIZE_X = Tile.WORLD_SIZE * 2
+  static SCREEN_SIZE_Y = Tile.WORLD_SIZE
 
   actor = null
   tileBackgroundTextureRegion = null
@@ -45,9 +45,9 @@ export default class Tile {
   }
 
   /**
-   * 
-   * @param {Number} gridX 
-   * @param {Number} gridY 
+   *
+   * @param {Number} gridX
+   * @param {Number} gridY
    * @returns {Vector2} screen space x and y position for top corner of isometric grid cell
    */
   #gridCoordinateToIsometricCoordinate(gridX, gridY) {
@@ -64,8 +64,8 @@ export default class Tile {
   }
 
   /**
-   * 
-   * @param {OrthographicCamera} camera 
+   *
+   * @param {OrthographicCamera} camera
    */
   #drawIsometricDebugLines(camera) {
     const half = Tile.WORLD_SIZE / 2
@@ -79,7 +79,7 @@ export default class Tile {
     this.shapeRenderer.begin(camera)
     this.shapeRenderer.drawCircle(this.position.x, this.position.y, 5)
     this.shapeRenderer.drawPolygon(
-      topCorner.x, topCorner.y, 
+      topCorner.x, topCorner.y,
       rightCorner.x, rightCorner.y,
       bottomCorner.x, bottomCorner.y,
       leftCorner.x, leftCorner.y,
@@ -88,12 +88,12 @@ export default class Tile {
   }
 
   /**
-   * 
-   * @param {OrthographicCamera} camera 
+   *
+   * @param {OrthographicCamera} camera
    */
   #drawMouseTileDebugLines(camera) {
-    // just so hapens that the gridX and gridY, when added together 
-    // is the forumla for the mouse grid 
+    // just so hapens that the gridX and gridY, when added together
+    // is the forumla for the mouse grid
     if ((this.gridX + this.gridY) % 2 !== 0) {
       return
     }
@@ -107,7 +107,7 @@ export default class Tile {
     this.shapeRenderer.LineWidth = 4
     this.shapeRenderer.begin(camera)
     this.shapeRenderer.drawPolygon(
-      topLeftCorner.x, topLeftCorner.y, 
+      topLeftCorner.x, topLeftCorner.y,
       topRightCorner.x, topRightCorner.y,
       bottomRightCorner.x, bottomRightCorner.y,
       bottomLeftCorner.x, bottomLeftCorner.y,
@@ -125,7 +125,7 @@ export default class Tile {
     const textureW = Tile.WORLD_SIZE * 2 // double the size of the image to fill the grid cell
     const textureH = Tile.WORLD_SIZE * 2 // double the size of the image to file the grid cell
 
-    const alpha = this.debug 
+    const alpha = this.debug
       ? 0.5
       : 1
 
@@ -136,7 +136,7 @@ export default class Tile {
 
   /**
    *
-   * @param {SpriteRenderer} spriteRenderer 
+   * @param {SpriteRenderer} spriteRenderer
    * @param {Camera} camera
    */
   draw(spriteRenderer, camera) {
@@ -146,29 +146,5 @@ export default class Tile {
       this.#drawIsometricDebugLines(camera)
       this.#drawMouseTileDebugLines(camera)
     }
-  }
-
-  /**
-   * 
-   * @param {Actor} actor 
-   */
-  insert(actor) {
-    this.actor = actor
-  }
-
-  remove() {
-    this.actor = null
-  }
-
-  get Actor() {
-    return this.actor
-  }
-
-  get GridX() {
-    return this.gridX
-  }
-
-  get GridY() {
-    return this.gridY
   }
 }

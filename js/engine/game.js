@@ -5,7 +5,7 @@ import AssetManager from './assets/asset-manager.js'
 import Viewport from './gfx/viewport.js'
 
 export default class Game {
-  debug = false
+  debug = true
   canvas = null
   ctx = null
   viewport = null
@@ -18,8 +18,8 @@ export default class Game {
   assetManager = null
 
   /**
-   * 
-   * @param {String} canvasId 
+   *
+   * @param {String} canvasId
    */
   constructor(canvasId = 'canvas') {
     try {
@@ -29,11 +29,8 @@ export default class Game {
       console.error(`Could not find canvas with id: ${canvasId}`)
     }
 
-    // screen details
-    this.viewport = new Viewport(this.canvas)
-
     // managing inputs
-    this.inputManager = null 
+    this.inputManager = null
     this.keyboard = new Keyboard(this.canvas)
     this.keyboard.create()
     this.mouse = new Mouse(this.canvas, null)
@@ -47,18 +44,18 @@ export default class Game {
   }
 
   /**
-   * 
-   * @param {String} id 
-   * @param {String} image 
+   *
+   * @param {String} id
+   * @param {String} image
    */
   addImage(id, image) {
     this.assetManager.add(id, image)
   }
 
   /**
-   * 
-   * @param {String} id 
-   * @param {String} screen 
+   *
+   * @param {String} id
+   * @param {String} screen
    */
   addScene(id, screen) {
     if (typeof id !== 'string') {
@@ -105,24 +102,24 @@ export default class Game {
       console.error('Input Processor cannot be null')
     }
 
-    this.inputManager = value  
+    this.inputManager = value
     this.mouse.InputManager = value
   }
 
   get SceneManager() {
     return this.sceneManager
   }
-  
+
   get AssetManager() {
     return this.assetManager
   }
 
-  get RenderContext() {
-    return this.ctx
+  get Canvas() {
+    return this.canvas
   }
 
-  get Viewport() {
-    return this.viewport
+  get RenderContext() {
+    return this.ctx
   }
 
   get Debug() {

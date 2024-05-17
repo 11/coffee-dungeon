@@ -1,15 +1,14 @@
-import { Vector2 } from './threejs-math/index.js'
 
 /**
  * Baycentric coodrinate approach to determining if a point is inside of a triangle
- * @param {Number} px 
- * @param {Number} py 
- * @param {Number} ax 
- * @param {Number} ay 
- * @param {Number} bx 
- * @param {Number} by 
- * @param {Number} cx 
- * @param {Number} cy 
+ * @param {Number} px
+ * @param {Number} py
+ * @param {Number} ax
+ * @param {Number} ay
+ * @param {Number} bx
+ * @param {Number} by
+ * @param {Number} cx
+ * @param {Number} cy
  * @return {Boolean} if point is inside triangle
  */
 export function isInsideTriangleBaycentric(px, py, ax, ay, bx, by, cx, cy) {
@@ -27,9 +26,9 @@ export function isInsideTriangleBaycentric(px, py, ax, ay, bx, by, cx, cy) {
 }
 
 /**
- * Baycentric coodrinate approach to determining if a point is inside of a triangle 
+ * Baycentric coodrinate approach to determining if a point is inside of a triangle
  * @param {Vector2} p - point we're checking that is inside triangle
- * @param {Vector2} a - point a in triangle 
+ * @param {Vector2} a - point a in triangle
  * @param {Vector2} b - point b in triangle
  * @param {Vector2} c - point c in triangle
  * @return {Boolean} if point is inside triangle
@@ -41,14 +40,14 @@ export function isInsideTriangleBaycentricVectors(p, a, b, c) {
 }
 
 /**
- * cacluate the area of a triangle 
- * @param {Number} ax 
- * @param {Number} ay 
- * @param {Number} bx 
- * @param {Number} by 
- * @param {Number} cx 
- * @param {Number} cy 
- * @returns 
+ * cacluate the area of a triangle
+ * @param {Number} ax
+ * @param {Number} ay
+ * @param {Number} bx
+ * @param {Number} by
+ * @param {Number} cx
+ * @param {Number} cy
+ * @returns
  */
 export function triangleArea(ax, ay, bx, by, cx, cy) {
   return Math.abs((ax * (by - cy) + bx * (cy - ay) + cx * (ay - by)) / 2.0)
@@ -56,19 +55,19 @@ export function triangleArea(ax, ay, bx, by, cx, cy) {
 
 /**
  * calculate if a point is inside a triangle using area method
- * @param {Number} px 
- * @param {Number} py 
- * @param {Number} ax 
- * @param {Number} ay 
- * @param {Number} bx 
- * @param {Number} by 
- * @param {Number} cx 
- * @param {Number} cy 
+ * @param {Number} px
+ * @param {Number} py
+ * @param {Number} ax
+ * @param {Number} ay
+ * @param {Number} bx
+ * @param {Number} by
+ * @param {Number} cx
+ * @param {Number} cy
  */
 export function isInsideTriangleArea(px, py, ax, ay, bx, by, cx, cy) {
   const A = triangleArea(ax, ay, bx, by, cx, cy) // calculate area of triangle ABC
-  const pbc = triangleArea(px, py, bx, by, cx, cy)  // calculate area of triangle PBC 
-  const pac = triangleArea(ax, ay, px, py, cx, cy)  // calculate area of triangle PAC 
-  const pab = triangleArea(ax, ay, bx, by, px, py)  // calculate area of triangle PAB 
+  const pbc = triangleArea(px, py, bx, by, cx, cy)  // calculate area of triangle PBC
+  const pac = triangleArea(ax, ay, px, py, cx, cy)  // calculate area of triangle PAC
+  const pab = triangleArea(ax, ay, bx, by, px, py)  // calculate area of triangle PAB
   return A === pbc + pac + pab
 }

@@ -1,7 +1,9 @@
-import Demo from './game/scenes/demo.js'
 import Game from './engine/game.js'
+import Battle from './game/scenes/battle.js'
+import CardShop from './game/scenes/card-shop.js'
 
 window.game = new Game()
-game.addScene('demo', new Demo())
-game.setScene('demo')
+game.addScene('battle', new Battle())
+game.addScene('card-shop', new CardShop())
+game.setScene('battle')
 game.start()

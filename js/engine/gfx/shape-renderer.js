@@ -12,28 +12,21 @@ export default class ShapeRenderer {
   }
 
   /**
-   * 
-   * @param {Color} color 
-   * @param {boolean} fill 
-   * @param {Number} lineWidth 
-   * @param {OrthographicCamera} camera 
+   *
+   * @param {OrthographicCamera} camera
    */
   begin(camera = null) {
-    if (this.fill) {
-      this.ctx.fillStyle = color
-    } 
-
     this.camera = camera
 
     this.ctx.beginPath()
   }
 
   /**
-   * 
-   * @param {Number} x1 
-   * @param {Number} y1 
-   * @param {Number} x2 
-   * @param {Number} y2 
+   *
+   * @param {Number} x1
+   * @param {Number} y1
+   * @param {Number} x2
+   * @param {Number} y2
    */
   drawLine(x1 = 0, y1 = 0, x2 = 0, y2 = 0) {
     if (this.camera) {
@@ -48,14 +41,14 @@ export default class ShapeRenderer {
   }
 
   /**
-   * 
-   * @param {Array<Number>} lines 
+   *
+   * @param {Array<Number>} lines
    */
   drawLines(...lines) {
     // have to have at least 2 lines in list, 2 lines are made of of 4 numbers, therefore length >= 4
     const isMinSize = lines.length >= 4
-    const isCorrectNumberOfEntries = lines.length % 2 === 0 
-    
+    const isCorrectNumberOfEntries = lines.length % 2 === 0
+
     if (!isMinSize) {
       throw new ValidationError('drawLines - must have at least 2 sides in list (aka 4 numbers in list)')
     } else if (!isCorrectNumberOfEntries) {
@@ -72,8 +65,8 @@ export default class ShapeRenderer {
   }
 
   /**
-   * 
-   * @param {Array<Number>} lines 
+   *
+   * @param {Array<Number>} lines
    */
   drawPolygon(...lines) {
     // draw all lines
@@ -82,14 +75,14 @@ export default class ShapeRenderer {
     // wrap line back to beginning
     const [x1, y1] = [lines[0], lines[1]]
     const [x2, y2] = [lines.at(-2), lines.at(-1)]
-    this.drawLine(x1, y1, x2, y2) 
+    this.drawLine(x1, y1, x2, y2)
   }
 
   /**
-   * 
-   * @param {Number} x 
-   * @param {Number} y 
-   * @param {Number} radius 
+   *
+   * @param {Number} x
+   * @param {Number} y
+   * @param {Number} radius
    */
   drawCircle(x = 0, y = 0, radius = 1) {
     if (this.camera) {
@@ -101,11 +94,11 @@ export default class ShapeRenderer {
   }
 
   /**
-   * 
-   * @param {Number} x 
-   * @param {Number} y 
-   * @param {Number} width 
-   * @param {Number} height 
+   *
+   * @param {Number} x
+   * @param {Number} y
+   * @param {Number} width
+   * @param {Number} height
    */
   drawRectangle(x = 0, y = 0, width = 100, height = 100) {
     if (this.camera) {
@@ -120,7 +113,7 @@ export default class ShapeRenderer {
     if (this.fill) {
       this.ctx.fill()
       this.fill = false
-    } 
+    }
 
     this.ctx.stroke()
 
