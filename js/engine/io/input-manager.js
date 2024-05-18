@@ -1,28 +1,61 @@
+import { Vector2 } from '../threejs-math/index.js'
+
 export default class InputManager {
-  mouseUp(keycode, x, y) {
-    console.log('Mouse Up', keycode, x, y)
+  /**
+   *
+   * @param {Number} keycode
+   * @param {Vector2} mouseCoordinates
+   */
+  mouseUp(keycode, mouseCoordinates) {
+    console.log('Mouse Up', keycode, mouseCoordinates)
   }
 
-  mouseDown(keycode, x, y) {
-    console.log('Mouse Down', keycode, x, y)
+  /**
+   *
+   * @param {Number} keycode
+   * @param {Vector2} mouseCoordinates
+   */
+  mouseDown(keycode, mouseCoordinates) {
+    console.log('Mouse Down', keycode, mouseCoordinates)
   }
 
-  mousePressed(keycode, x, y) {
-    console.log('Mouse Pressed', keycode, x, y)
+  /**
+   *
+   * @param {Number} keycode
+   * @param {Vector2} mouseCoordinates
+   */
+  mousePressed(keycode, mouseCoordinates) {
+    console.log('Mouse Pressed', keycode, mouseCoordinates)
   }
 
-  mouseMoved(x, y) {
-    console.log('Mouse Moved', x, y)
+  /**
+   *
+   * @param {Vector2} mouseCoordinates
+   */
+  mouseMoved(mouseCoordinates) {
+    console.log('Mouse Moved', mouseCoordinates)
   }
 
+  /**
+   *
+   * @param {Number} keycode
+   */
   keyUp(keycode) {
     console.log('Key Up', keycode)
   }
 
+  /**
+   *
+   * @param {Number} keycode
+   */
   keyDown(keycode) {
     console.log('Key Down', keycode)
   }
 
+  /**
+   *
+   * @param {Number} keycode
+   */
   keyPressed(keycode) {
     console.log('Key Pressed', keycode)
   }

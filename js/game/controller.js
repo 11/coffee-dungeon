@@ -64,32 +64,63 @@ export default class Controller extends InputManager {
     this.shapeRenderer.end()
   }
 
-  mouseMoved(x, y) {
+  /**
+   *
+   * @param {Vector2} mouseCoordinates
+   */
+  mouseMoved(mouseCoordinates) {
     if (debug) {
-      this.#renderDebugText(new Vector2(x, y))
+      this.#renderDebugText(mouseCoordinates)
     }
   }
 
-  mouseUp(keycode, x, y) {
+  /**
+   *
+   * @param {Number} keycode
+   * @param {Vector2} mouseCoordinates
+   */
+  mouseUp(keycode, mouseCoordinates) {
     console.log('Mouse Up')
   }
 
-  mouseDown(keycode, x, y) {
-    console.log('Mouse Down', keycode, x, y)
+  /**
+   *
+   * @param {Number} keycode
+   * @param {Vector2} mouseCoordinates
+   */
+  mouseDown(keycode, mouseCoordinates) {
+    console.log('Mouse Down', keycode, mouseCoordinates)
   }
 
-  mousePressed(keycode, x, y) {
-    console.log('Mouse Clicked', keycode, x, y)
+  /**
+   *
+   * @param {Number} keycode
+   * @param {Vector2} mouseCoordinates
+   */
+  mousePressed(keycode, mouseCoordinates) {
+    console.log('Mouse Clicked', keycode, mouseCoordinates)
   }
 
+  /**
+   *
+   * @param {Number} keycode
+   */
   keyUp(keycode) {
     console.log('Key Up', keycode)
   }
 
+  /**
+   *
+   * @param {Number} keycode
+   */
   keyDown(keycode) {
     console.log('Key Down', keycode)
   }
 
+  /**
+   *
+   * @param {Number} keycode
+   */
   keyPressed(keycode) {
     console.log('Key Pressed', keycode)
   }
