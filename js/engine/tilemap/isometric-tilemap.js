@@ -1,31 +1,38 @@
-import Tile from './tile.js'
+import IsometricTile from './isometric-tile.js'
 import ShapeRenderer from '../gfx/shape-renderer.js'
 import { isInsideTriangleArea } from '../math.js'
 import { Vector2 } from '../threejs-math/index.js'
 
-export default class IsometricTileMap {
+export default class IsometricTilemap {
   debug = false
 
   dimensions = null
   grid = null
-  players = null
   shapeRenderer = null
   camera = null
 
   iHat = new Vector2(1, 0.5).multiplyScalar(Tile.WORLD_SIZE)
   jHat = new Vector2(-1, 0.5).multiplyScalar(Tile.WORLD_SIZE)
 
+  get Dimensiosn() {
+    return this.dimensions
+  }
+
   /**
    *
    * @param {Number} size
    * @param {String} color
    */
-  constructor(dimensions = new Vector2(10, 10), camera = null, debug = false) {
+  constructor(
+    dimensions = new Vector2(8, 8),
+    camera = null,
+    debug = false
+  ) {
     this.dimensions = dimensions
     this.debug = debug
 
     this.grid = this.#createGrid(this.dimensions)
-    this.camera = null
+    this.camera = camera
     this.shapeRenderer = new ShapeRenderer()
   }
 
@@ -39,8 +46,8 @@ export default class IsometricTileMap {
     // TODO: parameterize this bad boy right here
     const isometricOrigin = new Vector2(5, 1)
 
-    const cell = new Vector2(Math.floor(screenX / Tile.SCREEN_SIZE_X), Math.floor(screenY / Tile.SCREEN_SIZE_Y))
-    const cellOffset = new Vector2(screenX % Tile.SCREEN_SIZE_X, screenY % Tile.SCREEN_SIZE_Y)
+    const cell = new Vector2(Math.floor(screenX / IsometricTile.SCREEN_SIZE_X), Math.floor(screenY / IsometricTile.SCREEN_SIZE_Y))
+    const cellOffset = new Vector2(screenX % IsometricTile.SCREEN_SIZE_X, screenY % IsometricTile.SCREEN_SIZE_Y)
 
     const isometricPosition = new Vector2(
       (cell.y - isometricOrigin.y) + (cell.x - isometricOrigin.x) - 1, // we subtract 1 because our origin calculation is kinda broken atm
@@ -48,27 +55,27 @@ export default class IsometricTileMap {
     )
 
     const topLeftTriangle = [
-      Tile.SCREEN_SIZE_X / 2, 0,                  // top mid point
-      0, Tile.SCREEN_SIZE_Y / 2,                  // left mid point
+      IsometricTile.SCREEN_SIZE_X / 2, 0,                  // top mid point
+      0, IsometricTile.SCREEN_SIZE_Y / 2,                  // left mid point
       0, 0,                                       // top left point
     ]
 
     const topRightTriangle = [
-      Tile.SCREEN_SIZE_X / 2, 0,                  // top mid point
-      Tile.SCREEN_SIZE_X, Tile.SCREEN_SIZE_Y / 2, // right mid point
-      Tile.SCREEN_SIZE_X, 0                       // top right corner
+      IsometricTile.SCREEN_SIZE_X / 2, 0,                  // top mid point
+      IsometricTile.SCREEN_SIZE_X, IsometricTile.SCREEN_SIZE_Y / 2, // right mid point
+      IsometricTile.SCREEN_SIZE_X, 0                       // top right corner
     ]
 
     const bottomLeftTriangle = [
-      Tile.SCREEN_SIZE_X / 2, Tile.SCREEN_SIZE_Y, // bottom mid point
-      0, Tile.SCREEN_SIZE_Y / 2,                  // left mid point
-      0, Tile.SCREEN_SIZE_Y                       // bottom left point
+      IsometricTile.SCREEN_SIZE_X / 2, IsometricTile.SCREEN_SIZE_Y, // bottom mid point
+      0, IsometricTile.SCREEN_SIZE_Y / 2,                  // left mid point
+      0, IsometricTile.SCREEN_SIZE_Y                       // bottom left point
     ]
 
     const bottomRightTriangle = [
-      Tile.SCREEN_SIZE_X / 2, Tile.SCREEN_SIZE_Y, // bottom mid point
-      Tile.SCREEN_SIZE_X, Tile.SCREEN_SIZE_Y / 2, // right mid point
-      Tile.SCREEN_SIZE_X, Tile.SCREEN_SIZE_Y      // bottom right point
+      IsometricTile.SCREEN_SIZE_X / 2, IsometricTile.SCREEN_SIZE_Y, // bottom mid point
+      IsometricTile.SCREEN_SIZE_X, IsometricTile.SCREEN_SIZE_Y / 2, // right mid point
+      IsometricTile.SCREEN_SIZE_X, IsometricTile.SCREEN_SIZE_Y      // bottom right point
     ]
 
     const isInTopLeftTriangle = isInsideTriangleArea(cellOffset.x, cellOffset.y, topLeftTriangle[0], topLeftTriangle[1], topLeftTriangle[2], topLeftTriangle[3], topLeftTriangle[4], topLeftTriangle[5])
@@ -97,8 +104,8 @@ export default class IsometricTileMap {
   static mapToGlobal(gridPosition, camera) {
     // gridPosition.sub(isometricOrigin)
 
-    const iHat = new Vector2(1, 0.5).multiplyScalar(Tile.WORLD_SIZE)
-    const jHat = new Vector2(-1, 0.5).multiplyScalar(Tile.WORLD_SIZE)
+    const iHat = new Vector2(1, 0.5).multiplyScalar(IsometricTile.WORLD_SIZE)
+    const jHat = new Vector2(-1, 0.5).multiplyScalar(IsometricTile.WORLD_SIZE)
 
     iHat.multiplyScalar(gridPosition.x)
     jHat.multiplyScalar(gridPosition.y)
@@ -124,7 +131,7 @@ export default class IsometricTileMap {
       for (let j = 0; j < dimensions.y; j++) {
         const x = i
         const y = j
-        grid[i][j] = new Tile('dirt-tileset', x, y, this.debug)
+        grid[i][j] = new IsometricTile('dirt-tileset', x, y, this.debug)
       }
     }
 
@@ -147,12 +154,5 @@ export default class IsometricTileMap {
    */
   draw(spriteRenderer, camera) {
     this.#drawIsometricGrid(spriteRenderer, camera)
-  }
-
-  /**
-   * @return {Vector2} dimensions
-   */
-  get Dimensiosn() {
-    return this.dimensions
   }
 }

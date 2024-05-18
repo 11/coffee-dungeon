@@ -18,6 +18,45 @@ export default class Game {
   assetManager = null
 
   /**
+   * @param {InputProcessor} value
+   */
+  set InputManager(value) {
+    if (!value) {
+      console.error('Input Processor cannot be null')
+    }
+
+    this.inputManager = value
+    this.mouse.InputManager = value
+  }
+
+  get SceneManager() {
+    return this.sceneManager
+  }
+
+  get AssetManager() {
+    return this.assetManager
+  }
+
+  get Canvas() {
+    return this.canvas
+  }
+
+  get RenderContext() {
+    return this.ctx
+  }
+
+  get Debug() {
+    return this.debug
+  }
+
+  /**
+   * @param {Boolean} value
+   */
+  set Debug(value) {
+    this.debug = value
+  }
+
+  /**
    *
    * @param {String} canvasId
    */
@@ -83,53 +122,20 @@ export default class Game {
   }
 
   start() {
+    if (this.debug) {
+      console.log(window.game.AssetManager.toString())
+    }
+
+    requestAnimationFrame(this.#run.bind(this))
+  }
+
+  #run() {
     this.#update()
     this.#draw()
-
-    requestAnimationFrame(this.start.bind(this))
   }
 
   end() {
     this.keyboard.destroy()
     this.mouse.destroy()
-  }
-
-  /**
-   * @param {InputProcessor} value
-   */
-  set InputManager(value) {
-    if (!value) {
-      console.error('Input Processor cannot be null')
-    }
-
-    this.inputManager = value
-    this.mouse.InputManager = value
-  }
-
-  get SceneManager() {
-    return this.sceneManager
-  }
-
-  get AssetManager() {
-    return this.assetManager
-  }
-
-  get Canvas() {
-    return this.canvas
-  }
-
-  get RenderContext() {
-    return this.ctx
-  }
-
-  get Debug() {
-    return this.debug
-  }
-
-  /**
-   * @param {Boolean} value
-   */
-  set Debug(value) {
-    this.debug = value
   }
 }

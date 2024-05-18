@@ -3,8 +3,8 @@ import OrthographicCamera from '../engine/gfx/orthographic-camera.js'
 import ShapeRenderer from '../engine/gfx/shape-renderer.js'
 import Color from '../engine/gfx/color.js'
 
-import IsometricGrid from '../engine/tilemap/isometric-tile-map.js'
-import Tile from '../engine/tilemap/tile.js'
+import IsometricGrid from '../engine/tilemap/isometric-tilemap.js'
+import Tile from '../engine/tilemap/isometric-tile.js'
 
 export default class Controller extends InputManager {
   debug = false

@@ -5,10 +5,10 @@ import SpriteRenderer from '../gfx/sprite-renderer.js'
 import ShapeRenderer from '../gfx/shape-renderer.js'
 import OrthographicCamera from '../gfx/orthographic-camera.js'
 
-export default class Tile {
+export default class IsometricTile {
   static WORLD_SIZE = 64
-  static SCREEN_SIZE_X = Tile.WORLD_SIZE * 2
-  static SCREEN_SIZE_Y = Tile.WORLD_SIZE
+  static SCREEN_SIZE_X = IsometricTile.WORLD_SIZE * 2
+  static SCREEN_SIZE_Y = IsometricTile.WORLD_SIZE
 
   actor = null
   tileBackgroundTextureRegion = null
@@ -70,9 +70,9 @@ export default class Tile {
   #drawIsometricDebugLines(camera) {
     const half = Tile.WORLD_SIZE / 2
     const topCorner = new Vector2(this.position.x, this.position.y)
-    const rightCorner = new Vector2(this.position.x + Tile.WORLD_SIZE, this.position.y + half)
-    const bottomCorner = new Vector2(this.position.x, this.position.y + Tile.WORLD_SIZE)
-    const leftCorner = new Vector2(this.position.x - Tile.WORLD_SIZE, this.position.y + half)
+    const rightCorner = new Vector2(this.position.x + IsometricTile.WORLD_SIZE, this.position.y + half)
+    const bottomCorner = new Vector2(this.position.x, this.position.y + IsometricTile.WORLD_SIZE)
+    const leftCorner = new Vector2(this.position.x - IsometricTile.WORLD_SIZE, this.position.y + half)
 
     this.shapeRenderer.StrokeStyle = Color.RED
     this.shapeRenderer.LineWidth = 4
@@ -120,7 +120,7 @@ export default class Tile {
    * @param {SpriteRenderer} spriteRenderer
    */
   #drawTileBackgroundTextureRegion(spriteRenderer, camera) {
-    const textureX = this.position.x - Tile.WORLD_SIZE // subtract 1 tile's size to render image based on the center of a tile
+    const textureX = this.position.x - IsometricTile.WORLD_SIZE // subtract 1 tile's size to render image based on the center of a tile
     const textureY = this.position.y// same logic applies for a tile's height, but need to half the height to force the isometric perspective
     const textureW = Tile.WORLD_SIZE * 2 // double the size of the image to fill the grid cell
     const textureH = Tile.WORLD_SIZE * 2 // double the size of the image to file the grid cell

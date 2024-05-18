@@ -4,8 +4,9 @@ import Controller from '../controller.js'
 import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
 import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
-import IsometricTileMap from '../../engine/tilemap/isometric-tile-map.js'
-import Tile from '../../engine/tilemap/tile.js'
+// import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
+import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
+import Tile from '../../engine/tilemap/isometric-tile.js'
 
 export default class Battle extends Scene {
   grid = null
@@ -25,17 +26,12 @@ export default class Battle extends Scene {
       -Tile.SCREEN_SIZE_Y * 2
     )
 
-    // load game assets
-    window.game.addImage('dirt-tileset', 'asset-dirt-tileset')
-    if (this.debug) {
-      console.log(window.game.AssetManager.toString())
-    }
-
     // configure game inputs
     window.game.InputManager = new Controller(this.camera)
 
     // load game world
-    this.grid = new IsometricTileMap(new Vector2(8, 8), null, this.debug)
+    // this.grid = new IsometricTileMap(new Vector2(8, 8), null, this.debug)
+    this.grid = new OrthographicTilemap(new Vector2(8, 8), null, this.debug)
   }
 
   update() {
