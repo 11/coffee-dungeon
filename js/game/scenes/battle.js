@@ -6,10 +6,11 @@ import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
 // import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
 import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
+import OrthographicTile from '../../engine/tilemap/orthographic-tile.js'
 import Tile from '../../engine/tilemap/isometric-tile.js'
 
 export default class Battle extends Scene {
-  grid = null
+  tilemap = null
   camera = null
   spriteRenderer = null
 
@@ -21,17 +22,19 @@ export default class Battle extends Scene {
     this.spriteRenderer = new SpriteRenderer()
 
     this.camera = new OrthographicCamera()
-    this.camera.translate(
-      -Tile.SCREEN_SIZE_X * 6 + Tile.WORLD_SIZE,
-      -Tile.SCREEN_SIZE_Y * 2
-    )
+    // this.camera.translate(
+    //   -OrthographicTile.SCREEN_SIZE_X * 6 + OrthographicTile.WORLD_SIZE,
+    //   -OrthographicTile.SCREEN_SIZE_Y * 2
+    // )
 
-    // configure game inputs
-    window.game.InputManager = new Controller(this.camera)
 
     // load game world
     // this.grid = new IsometricTileMap(new Vector2(8, 8), null, this.debug)
-    this.grid = new OrthographicTilemap(new Vector2(8, 8), null, this.debug)
+    this.tilemap = new OrthographicTilemap(new Vector2(8, 8), null, this.debug)
+
+    // configure game inputs
+    // window.game.InputManager = new Controller(this.camera)
+    window.game.InputManager = new Controller(this.camera, this.tilemap)
   }
 
   update() {
@@ -40,6 +43,6 @@ export default class Battle extends Scene {
 
   draw(ctx) {
     ScreenUtils.clear(ctx)
-    this.grid.draw(this.spriteRenderer, this.camera)
+    this.tilemap.draw(this.spriteRenderer, this.camera)
   }
 }

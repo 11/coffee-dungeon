@@ -1,15 +1,17 @@
 import InputManager from '../engine/io/input-manager.js'
 import OrthographicCamera from '../engine/gfx/orthographic-camera.js'
+import OrthographicTilemap from '../engine/tilemap/orthographic-tilemap.js'
+import IsometricTilemap from '../engine/tilemap/isometric-tilemap.js'
 import ShapeRenderer from '../engine/gfx/shape-renderer.js'
 import Color from '../engine/gfx/color.js'
-
-import IsometricGrid from '../engine/tilemap/isometric-tilemap.js'
 import Tile from '../engine/tilemap/isometric-tile.js'
+import { Vector2 } from '../engine/threejs-math/index.js'
 
 export default class Controller extends InputManager {
   debug = false
 
   camera = null
+  tilemap = null
   shapeRenderer = new ShapeRenderer()
 
   mouseHtml = document.querySelector('#mouse-screen code')
@@ -19,27 +21,36 @@ export default class Controller extends InputManager {
   /**
    *
    * @param {OrthographicCamera} camera
+   * @param {OrthographicTilemap | IsometricTilemap} tilemap
+   * @param {Boolean} debug
    */
-  constructor(camera, debug = true) {
+  constructor(camera, tilemap, debug = true) {
     super()
 
+    this.tilemap = tilemap
     this.camera = camera
     this.debug = debug
   }
 
   /**
    *
-   * @param {Number} x
-   * @param {Number} y
+   * @param {Vector2} mouseCoordinates
    */
-  #renderDebugText(x, y) {
+  #renderDebugText(mouseCoordinates) {
     // screen space
-    this.mouseHtml.textContent = `${x}, ${y}`
+    this.mouseHtml.textContent = `${mouseCoordinates.x}, ${mouseCoordinates.y}`
 
-    const tileIndex = IsometricGrid.mapToLocal(x, y)
+    let tileIndex
+    let tileIndexInScreen
+    if (this.tilemap instanceof OrthographicTilemap) {
+      tileIndex = OrthographicTilemap.mapToLocal(mouseCoordinates)
+      tileIndexInScreen = OrthographicTilemap.mapToGlobal(tileIndex)
+    } else if (this.tilemap instanceof IsometricTilemap) {
+      tileIndex = IsometricTilemap.mapToLocal(x, y)
+      tileIndexInScreen = IsometricTilemap.mapToGlobal(tileIndex)
+    }
+
     this.selectedHtml.textContent = `${tileIndex.x}, ${tileIndex.y}`
-
-    const tileIndexInScreen = IsometricGrid.mapToGlobal(tileIndex)
     this.selectedTileHtml.textContent = `${tileIndexInScreen.x} ${tileIndexInScreen.y}`
   }
 
@@ -55,7 +66,7 @@ export default class Controller extends InputManager {
 
   mouseMoved(x, y) {
     if (debug) {
-      this.#renderDebugText(x, y)
+      this.#renderDebugText(new Vector2(x, y))
     }
   }
 

@@ -37,7 +37,6 @@ export default class OrthographicTile {
     }
 
     this.shapeRenderer.begin()
-    // this.shapeRenderer.StrokeStlye = color
     this.shapeRenderer.FillStyle = color
     this.shapeRenderer.drawRectangle(x, y, OrthographicTile.TILE_SIZE, OrthographicTile.TILE_SIZE)
     this.shapeRenderer.end()
