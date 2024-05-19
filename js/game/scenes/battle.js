@@ -5,14 +5,17 @@ import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
 import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
 // import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
+// import IsometricTile from '../../engine/tilemap/isometric-tile.js'
 import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
-import OrthographicTile from '../../engine/tilemap/orthographic-tile.js'
-import Tile from '../../engine/tilemap/isometric-tile.js'
+// import OrthographicTile from '../../engine/tilemap/orthographic-tile.js'
+import GridEntity from '../grid-entity.js'
 
 export default class Battle extends Scene {
   tilemap = null
   camera = null
   spriteRenderer = null
+
+  skull = null
 
   constructor() {
     super()
@@ -30,11 +33,13 @@ export default class Battle extends Scene {
 
     // load game world
     // this.grid = new IsometricTileMap(new Vector2(8, 8), null, this.debug)
-    this.tilemap = new OrthographicTilemap(new Vector2(8, 8), null, this.debug)
+    this.tilemap = new OrthographicTilemap(new Vector2(8, 8), this.camera, this.debug)
 
     // configure game inputs
     // window.game.InputManager = new Controller(this.camera)
     window.game.InputManager = new Controller(this.camera, this.tilemap)
+
+    this.skull = new GridEntity('entity-skull', new Vector2(1, 1), this.tilemap)
   }
 
   update() {
@@ -44,5 +49,6 @@ export default class Battle extends Scene {
   draw(ctx) {
     ScreenUtils.clear(ctx)
     this.tilemap.draw(this.spriteRenderer, this.camera)
+    this.skull.draw(this.spriteRenderer)
   }
 }

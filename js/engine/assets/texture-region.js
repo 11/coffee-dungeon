@@ -24,8 +24,7 @@ export default class TextureRegion {
   /**
    *
    * @param {CanvasRenderingContext2D} ctx
-   * @param {Number} x
-   * @param {Number} y
+   * @param {Vector2} position
    * @param {Number} width
    * @param {Number} height
    * @param {Number | null} dx
@@ -33,7 +32,7 @@ export default class TextureRegion {
    * @param {Number | null} dw
    * @param {Number | null} dh
    */
-  draw(ctx, x, y, width, height, dx = null, dy = null, dw = null, dh = null) {
+  draw(ctx, position, width, height, dx = null, dy = null, dw = null, dh = null) {
     const DX = dx ?? this.dx
     const DY = dy ?? this.dy
     const DW = dw ?? this.dw
@@ -43,7 +42,7 @@ export default class TextureRegion {
       this.image,
       DX, DY,
       DW, DH,
-      x, y,
+      position.x, position.y,
       width, height
     )
   }

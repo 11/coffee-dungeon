@@ -1,10 +1,22 @@
 export default class HealthComponent {
   health = null
 
-  constructor(health = 3) {
-    this.health = health
+  get Health() {
+    return this.health
   }
 
+  /**
+   *
+   * @param {Number} initalHealth
+   */
+  constructor(startingHealth = 3) {
+    this.health = startingHealth
+  }
+
+  /**
+   *
+   * @param {Number} damage
+   */
   takeDamage(damage) {
     this.health -= damage
   }
@@ -15,9 +27,5 @@ export default class HealthComponent {
    */
   isDead() {
     return this.health <= 0
-  }
-
-  get Health() {
-    return this.health
   }
 }
