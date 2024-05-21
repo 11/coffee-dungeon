@@ -7,6 +7,35 @@ export default class ShapeRenderer {
   camera = null
   fill = false
 
+  /**
+   * @param {Color} value
+   */
+  set StrokeStyle(value) {
+    this.ctx.strokeStyle = value
+  }
+
+  /**
+   * @param {Color} value
+   */
+  set FillStyle(value) {
+    this.ctx.fillStyle = value
+    this.fill = true
+  }
+
+  /**
+   * @param {Number} value
+   */
+  set LineWidth(value) {
+    this.ctx.lineWidth = value
+  }
+
+  /**
+   * @param {Number} - between - 0 and 1
+   */
+  set Alpha(value) {
+    this.ctx.globalAlpha = value
+  }
+
   constructor(ctx = window.game.RenderContext) {
     this.ctx = ctx
   }
@@ -119,34 +148,5 @@ export default class ShapeRenderer {
 
     this.ctx.globalAlpha = 1
     this.camera = null
-  }
-
-  /**
-   * @param {Color} value
-   */
-  set StrokeStyle(value) {
-    this.ctx.strokeStyle = value
-  }
-
-  /**
-   * @param {Color} value
-   */
-  set FillStyle(value) {
-    this.ctx.fillStyle = value
-    this.fill = true
-  }
-
-  /**
-   * @param {Number} value
-   */
-  set LineWidth(value) {
-    this.ctx.lineWidth = value
-  }
-
-  /**
-   * @param {Number} - between - 0 and 1
-   */
-  set Alpha(value) {
-    this.ctx.globalAlpha = value
   }
 }

@@ -8,14 +8,16 @@ import { Vector2 } from '../../engine/threejs-math/index.js'
 // import IsometricTile from '../../engine/tilemap/isometric-tile.js'
 import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
 // import OrthographicTile from '../../engine/tilemap/orthographic-tile.js'
-import GridEntity from '../grid-entity.js'
+import GridActor from '../grid-actor.js'
 
 export default class Battle extends Scene {
   tilemap = null
   camera = null
   spriteRenderer = null
 
-  skull = null
+  skulls = null
+  town = null
+  wizard = null
 
   constructor() {
     super()
@@ -39,7 +41,19 @@ export default class Battle extends Scene {
     // window.game.InputManager = new Controller(this.camera)
     window.game.InputManager = new Controller(this.camera, this.tilemap)
 
-    this.skull = new GridEntity('entity-skull', new Vector2(1, 1), this.tilemap)
+    this.skulls = [
+      new GridActor('entity-skull', new Vector2(5, 1), this.tilemap),
+      new GridActor('entity-skull', new Vector2(1, 5), this.tilemap),
+      new GridActor('entity-skull', new Vector2(4, 1), this.tilemap),
+    ]
+
+    this.town = [
+      new GridActor('decal-house', new Vector2(3, 2), this.tilemap),
+      new GridActor('decal-church', new Vector2(0, 5), this.tilemap),
+    ]
+
+    this.grave = new GridActor('decal-grave', new Vector2(4, 7), this.tilemap)
+    this.wizard = new GridActor('entity-wizard', new Vector2(5, 3), this.tilemap)
   }
 
   update() {
@@ -49,6 +63,9 @@ export default class Battle extends Scene {
   draw(ctx) {
     ScreenUtils.clear(ctx)
     this.tilemap.draw(this.spriteRenderer, this.camera)
-    this.skull.draw(this.spriteRenderer)
+    this.skulls.forEach(s => s.draw(this.spriteRenderer))
+    this.town.forEach(place => place.draw(this.spriteRenderer))
+    this.grave.draw(this.spriteRenderer)
+    this.wizard.draw(this.spriteRenderer)
   }
 }

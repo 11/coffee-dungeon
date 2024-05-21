@@ -9,5 +9,9 @@ game.setScene('battle')
 
 game.addImage('dirt-tileset', 'asset-dirt-tileset')
 game.addImage('entity-skull', 'debug-asset-skull')
+game.addImage('entity-wizard', 'debug-asset-wizard')
+game.addImage('decal-grave', 'debug-asset-grave')
+game.addImage('decal-house', 'debug-asset-house')
+game.addImage('decal-church', 'debug-asset-church')
 
 game.start()

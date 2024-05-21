@@ -26,7 +26,7 @@ export default class SpriteRenderer {
   /**
    *
    * @param {String} texture
-   * @param {Vector2 poistion}
+   * @param {Vector2} position
    * @param {Number} width
    * @param {Number} height
    * @param {Number} alpha - between 0 and 1
