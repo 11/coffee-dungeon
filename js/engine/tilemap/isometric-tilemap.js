@@ -2,6 +2,7 @@ import IsometricTile from './isometric-tile.js'
 import ShapeRenderer from '../gfx/shape-renderer.js'
 import { isInsideTriangleArea } from '../math.js'
 import { Vector2 } from '../threejs-math/index.js'
+import { NotImplementedError } from '../errors.js'
 
 export default class IsometricTilemap {
   debug = false
@@ -102,20 +103,7 @@ export default class IsometricTilemap {
    * @return {Vector2} screen coordinates of cell
    */
   static mapToGlobal(gridPosition, camera) {
-    // gridPosition.sub(isometricOrigin)
-
-    const iHat = new Vector2(1, 0.5).multiplyScalar(IsometricTile.WORLD_SIZE)
-    const jHat = new Vector2(-1, 0.5).multiplyScalar(IsometricTile.WORLD_SIZE)
-
-    iHat.multiplyScalar(gridPosition.x)
-    jHat.multiplyScalar(gridPosition.y)
-
-    const globalPosition = new Vector2(
-      iHat.x + jHat.x,
-      iHat.y + jHat.y
-    )
-
-    return globalPosition
+    throw new NotImplementedError('Not yet implemented')
   }
 
   /**
