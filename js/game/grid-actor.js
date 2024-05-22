@@ -4,26 +4,33 @@ import IsometricTilemap from '../engine/tilemap/isometric-tilemap.js'
 import OrthographicTilemap from '../engine/tilemap/orthographic-tilemap.js'
 import OrthographicTile from '../engine/tilemap/orthographic-tile.js'
 import ShapeRenderer from '../engine/gfx/shape-renderer.js'
+import SpriteRenderer from '../engine/gfx/sprite-renderer.js'
 
 import HealthComponent from './components/health-component.js'
 import GridPositionComponent from './components/grid-position-component.js'
-import SpriteRenderer from '../engine/gfx/sprite-renderer.js'
+import EnergyComponent from './components/energy-component.js'
 
 export default class GridActor {
   imageId = null
   healthComponent = null
   gridPositionComponent = null
+  energyComponent = null
 
   shapeRenderer = null
 
-  /** * @param {String} imageId
+  /**
+   *
+   * @param {String} imageId
    * @param {Vector2} startPosition
    * @param {IsometricTilemap | OrthographicTilemap} tilemap
+   * @param {Number} health
+   * @param {Number} energy
    */
-  constructor(imageId, startPosition, tilemap) {
+  constructor(imageId, startPosition, tilemap, health = 3, energy = 3) {
     this.imageId = imageId
-    this.healthComponent = new HealthComponent(5)
+    this.healthComponent = new HealthComponent(health)
     this.gridPositionComponent = new GridPositionComponent(startPosition, tilemap)
+    this.energyComponent = new EnergyComponent(energy)
 
     this.shapeRenderer = new ShapeRenderer()
   }

@@ -14,7 +14,7 @@ export default class HealthComponent {
    *
    * @param {Number} initalHealth
    */
-  constructor(startingHealth = 3) {
+  constructor(startingHealth) {
     this.maxHealth = startingHealth
     this.health = startingHealth
   }

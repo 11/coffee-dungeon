@@ -42,18 +42,18 @@ export default class Battle extends Scene {
     window.game.InputManager = new Controller(this.camera, this.tilemap)
 
     this.skulls = [
-      new GridActor('entity-skull', new Vector2(5, 1), this.tilemap),
-      new GridActor('entity-skull', new Vector2(1, 5), this.tilemap),
-      new GridActor('entity-skull', new Vector2(4, 1), this.tilemap),
+      new GridActor('entity-skull', new Vector2(5, 1), this.tilemap, 3),
+      new GridActor('entity-skull', new Vector2(1, 5), this.tilemap, 3),
+      new GridActor('entity-skull', new Vector2(4, 1), this.tilemap, 3),
     ]
 
     this.town = [
-      new GridActor('decal-house', new Vector2(3, 2), this.tilemap),
-      new GridActor('decal-church', new Vector2(0, 5), this.tilemap),
+      new GridActor('decal-house', new Vector2(3, 2), this.tilemap, 2),
+      new GridActor('decal-church', new Vector2(0, 5), this.tilemap, 2),
     ]
 
-    this.grave = new GridActor('decal-grave', new Vector2(4, 7), this.tilemap)
-    this.wizard = new GridActor('entity-wizard', new Vector2(5, 3), this.tilemap)
+    this.grave = new GridActor('decal-grave', new Vector2(4, 7), this.tilemap, 0)
+    this.wizard = new GridActor('entity-wizard', new Vector2(5, 3), this.tilemap, 3)
   }
 
   update() {
