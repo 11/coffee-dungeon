@@ -1,6 +1,7 @@
 import Scene from '../../engine/scenes/scene.js'
 import ScreenUtils from '../../engine/gfx/screen-utils.js'
-import Controller from '../controller.js'
+import Controller from '../controls/controller.js'
+import PlayerTurnController from '../controls/player-turn-controller.js'
 import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
 import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
@@ -12,6 +13,13 @@ import GridActor from '../actors/grid-actor.js'
 import Wizard from '../actors/player/wizard.js'
 import Skull from '../actors/enemies/skull.js'
 
+export const BattleStates = {
+  // ENVIRONMENTAL_MOVE: 0,
+  PLAYER_MOVE: 1,
+  ENEMY_MOVE: 2,
+  WIN_CONDITION: 3,
+}
+
 export default class Battle extends Scene {
   tilemap = null
   camera = null
@@ -20,6 +28,9 @@ export default class Battle extends Scene {
   skulls = null
   town = null
   wizard = null
+
+  battleState = null
+  battleStateChangeFlag = true
 
   constructor() {
     super()
@@ -56,10 +67,20 @@ export default class Battle extends Scene {
 
     this.grave = new GridActor('decal-grave', new Vector2(4, 7), this.tilemap, 0)
     this.wizard = new Wizard(new Vector2(5, 3), this.tilemap, 3)
+
+    this.battleState = BattleStates.PLAYER_MOVE
   }
 
   update() {
-
+    switch(this.battleState) {
+    case BattleStates.PLAYER_MOVE: {
+      if (this.battleStateChangeFlag) {
+        window.game.InputManager = new PlayerTurnController([this.wizard], this.tilemap)
+        this.battleStateChangeFlag = false
+      }
+      break
+    }
+    }
   }
 
   draw(ctx) {

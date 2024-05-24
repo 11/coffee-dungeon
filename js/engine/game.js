@@ -132,6 +132,8 @@ export default class Game {
   #run() {
     this.#update()
     this.#draw()
+
+    requestAnimationFrame(this.#run.bind(this))
   }
 
   end() {

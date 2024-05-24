@@ -15,8 +15,29 @@ export default class GridActor {
   healthComponent = null
   gridPositionComponent = null
   energyComponent = null
+  selected = false
 
   shapeRenderer = null
+
+  get GridPosition() {
+    return this.gridPositionComponent.GridPosition
+  }
+
+  /**
+   *
+   * @return {Boolean} selected
+   */
+  get Selected() {
+    return this.selected
+  }
+
+  /**
+   *
+   * @param {Boolean} value
+   */
+  set Selected(value) {
+    this.selected = value
+  }
 
   /**
    *
@@ -89,6 +110,8 @@ export default class GridActor {
     spriteRenderer.drawImage(this.imageId, position, OrthographicTile.TILE_SIZE / 2, OrthographicTile.TILE_SIZE / 2)
     spriteRenderer.end()
 
-    this.#drawHealthBar()
+    if (this.selected) {
+      this.#drawHealthBar()
+    }
   }
 }
