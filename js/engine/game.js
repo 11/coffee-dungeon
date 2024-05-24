@@ -20,6 +20,7 @@ export default class Game {
   assetManager = null
 
   targetFPS = 0
+  targetDeltaTime = 0
   lastFrame = null
 
   fps = 0
@@ -71,7 +72,7 @@ export default class Game {
    *
    * @param {String} canvasId
    */
-  constructor(canvasId = 'canvas', targetFPS = 30) {
+  constructor(canvasId = 'canvas', targetFPS = 60) {
     try {
       this.canvas = document.querySelector(canvasId)
       this.ctx = this.canvas.getContext('2d')
@@ -93,6 +94,7 @@ export default class Game {
     this.assetManager = new AssetManager()
 
     this.targetFPS = targetFPS
+    this.targetDeltaTime = MILLIS_PER_SEC / this.targetFPS
 
     this.fps = 0
   }
@@ -158,7 +160,7 @@ export default class Game {
     const deltaTime = Math.max(0.1, elapsedMs)
 
     // check if enough time has passed to render next frame
-    if (deltaTime >= this.fps) {
+    if (deltaTime >= this.targetDeltaTime) {
 
       // performance.now() returns time elapsed in miliseconds, but it's normalized to not have any decimals
       // So as an example:

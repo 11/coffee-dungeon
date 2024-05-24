@@ -57,7 +57,7 @@ export default class PlayerTurnController extends InputManager {
    * @param {Vector2} mouseCoordinates
    */
   mouseMoved(mouseCoordinates) {
-
+    console.log('Mouse Moved', mouseCoordinates)
   }
 
   /**
