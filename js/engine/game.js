@@ -4,6 +4,8 @@ import SceneManager from './scenes/scene-manager.js'
 import AssetManager from './assets/asset-manager.js'
 import Viewport from './gfx/viewport.js'
 
+const MILLIS_PER_SEC = 1000
+
 export default class Game {
   debug = true
   canvas = null
@@ -16,6 +18,11 @@ export default class Game {
 
   sceneManager = null
   assetManager = null
+
+  targetFPS = 0
+  lastFrame = null
+
+  fps = 0
 
   /**
    * @param {InputProcessor} value
@@ -49,6 +56,10 @@ export default class Game {
     return this.debug
   }
 
+  get FPS() {
+    return this.fps
+  }
+
   /**
    * @param {Boolean} value
    */
@@ -60,7 +71,7 @@ export default class Game {
    *
    * @param {String} canvasId
    */
-  constructor(canvasId = 'canvas') {
+  constructor(canvasId = 'canvas', targetFPS = 30) {
     try {
       this.canvas = document.querySelector(canvasId)
       this.ctx = this.canvas.getContext('2d')
@@ -80,6 +91,10 @@ export default class Game {
 
     // manage game
     this.assetManager = new AssetManager()
+
+    this.targetFPS = targetFPS
+
+    this.fps = 0
   }
 
   /**
@@ -113,8 +128,12 @@ export default class Game {
     this.sceneManager.initialize()
   }
 
-  #update() {
-    this.sceneManager.update()
+  /**
+   *
+   * @param {Number} deltaTime - time between previous frame and now
+   */
+  #update(deltaTime) {
+    this.sceneManager.update(deltaTime)
   }
 
   #draw() {
@@ -126,12 +145,41 @@ export default class Game {
       console.log(window.game.AssetManager.toString())
     }
 
+    this.lastFrame = performance.now()
     requestAnimationFrame(this.#run.bind(this))
   }
 
   #run() {
-    this.#update()
-    this.#draw()
+    const now = performance.now()
+
+    // it's possible for detla time to be 0ms, so to correct this,
+    // we set deltaTime to 0.1 if it comes back as 0
+    const elapsedMs = Math.abs(this.lastFrame - now)
+    const deltaTime = Math.max(0.1, elapsedMs)
+
+    // check if enough time has passed to render next frame
+    if (deltaTime >= this.fps) {
+
+      // performance.now() returns time elapsed in miliseconds, but it's normalized to not have any decimals
+      // So as an example:
+      //   if 1 second has elapsed (1 second === 1000 miliseconds)
+      //   - performance.now() of 1 second => 1000
+      //   - performance.now() of 0.5 seconds => 500
+      //   - performance.now() of 5.2 seconds => 5200
+      //
+      // This normalized value is useful for checking how much time has elapsed,
+      // but it's not useful for the other part of our game logic
+      //
+      // Since we want to multiply a game actor's velocity by detlaTime as a way to slowing down animations/movement,
+      // we need deltaTime in the decimal format. this line of code converts the deltaTime to the decimal format we need
+      const normalizedDeltaTime = deltaTime / MILLIS_PER_SEC
+
+      this.#update(normalizedDeltaTime)
+      this.#draw()
+
+      this.lastFrame = now
+      this.fps = Math.floor(MILLIS_PER_SEC / deltaTime)
+    }
 
     requestAnimationFrame(this.#run.bind(this))
   }

@@ -71,7 +71,11 @@ export default class Battle extends Scene {
     this.battleState = BattleStates.PLAYER_MOVE
   }
 
-  update() {
+  /**
+   *
+   * @param {Number} deltaTime - time between previous frame and now
+   */
+  update(deltaTime) {
     switch(this.battleState) {
     case BattleStates.PLAYER_MOVE: {
       if (this.battleStateChangeFlag) {
