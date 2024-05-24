@@ -6,9 +6,11 @@ import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
 // import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
 // import IsometricTile from '../../engine/tilemap/isometric-tile.js'
-import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
 // import OrthographicTile from '../../engine/tilemap/orthographic-tile.js'
-import GridActor from '../grid-actor.js'
+import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
+import GridActor from '../actors/grid-actor.js'
+import Wizard from '../actors/player/wizard.js'
+import Skull from '../actors/enemies/skull.js'
 
 export default class Battle extends Scene {
   tilemap = null
@@ -42,18 +44,18 @@ export default class Battle extends Scene {
     window.game.InputManager = new Controller(this.camera, this.tilemap)
 
     this.skulls = [
-      new GridActor('entity-skull', new Vector2(5, 1), this.tilemap, 3),
-      new GridActor('entity-skull', new Vector2(1, 5), this.tilemap, 3),
-      new GridActor('entity-skull', new Vector2(4, 1), this.tilemap, 3),
+      new Skull(new Vector2(5, 1), this.tilemap, 3),
+      new Skull(new Vector2(1, 5), this.tilemap, 3),
+      new Skull(new Vector2(4, 1), this.tilemap, 3),
     ]
 
-    this.town = [
+    this.towns = [
       new GridActor('decal-house', new Vector2(3, 2), this.tilemap, 2),
       new GridActor('decal-church', new Vector2(0, 5), this.tilemap, 2),
     ]
 
     this.grave = new GridActor('decal-grave', new Vector2(4, 7), this.tilemap, 0)
-    this.wizard = new GridActor('entity-wizard', new Vector2(5, 3), this.tilemap, 3)
+    this.wizard = new Wizard(new Vector2(5, 3), this.tilemap, 3)
   }
 
   update() {
@@ -64,8 +66,8 @@ export default class Battle extends Scene {
     ScreenUtils.clear(ctx)
     this.tilemap.draw(this.spriteRenderer, this.camera)
     this.skulls.forEach(s => s.draw(this.spriteRenderer))
-    this.town.forEach(place => place.draw(this.spriteRenderer))
-    this.grave.draw(this.spriteRenderer)
+    this.towns.forEach(t => t.draw(this.spriteRenderer))
     this.wizard.draw(this.spriteRenderer)
+    this.grave.draw(this.spriteRenderer)
   }
 }
