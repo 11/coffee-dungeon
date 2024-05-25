@@ -152,27 +152,24 @@ export default class Game {
   }
 
   #run() {
+    // it's possible for elapsedTime to be 0ms, so to correct this,
+    // we set elpasedTime to 0.1 if it comes back as 0
     const now = performance.now()
-
-    // it's possible for detla time to be 0ms, so to correct this,
-    // we set deltaTime to 0.1 if it comes back as 0
     const elapsedMs = Math.abs(this.lastFrame - now)
     const deltaTime = Math.max(0.1, elapsedMs)
 
     // check if enough time has passed to render next frame
     if (deltaTime >= this.targetDeltaTime) {
-
       // performance.now() returns time elapsed in miliseconds, but it's normalized to not have any decimals
-      // So as an example:
-      //   if 1 second has elapsed (1 second === 1000 miliseconds)
-      //   - performance.now() of 1 second => 1000
-      //   - performance.now() of 0.5 seconds => 500
-      //   - performance.now() of 5.2 seconds => 5200
+      // So as an example: (NOTE Remember 1 second === 1000 miliseconds)
+      //   - if 1.0s has elapsed, performance.now() returns 1000
+      //   - if 0.5s has elapsed, performance.now() returns 500
+      //   - if 5.2s has elapsed, performance.now() returns 5200
       //
       // This normalized value is useful for checking how much time has elapsed,
       // but it's not useful for the other part of our game logic
       //
-      // Since we want to multiply a game actor's velocity by detlaTime as a way to slowing down animations/movement,
+      // Since we want to multiply a game actor's velocity by detlaTime as a way to normalize animations/movement,
       // we need deltaTime in the decimal format. this line of code converts the deltaTime to the decimal format we need
       const normalizedDeltaTime = deltaTime / MILLIS_PER_SEC
 

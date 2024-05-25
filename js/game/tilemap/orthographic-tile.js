@@ -7,13 +7,12 @@ import GridActor from '../../game/actors/grid-actor.js'
 export default class OrthographicTile {
   static TILE_SIZE = 96
 
-  imageId = null
-  gridCoordinate = null
-
   shapeRenderer = null
   debug = null
 
   actor = null
+  imageId = null
+  gridCoordinate = null
 
   get ImageId() {
     return this.imageId
@@ -43,6 +42,12 @@ export default class OrthographicTile {
     this.actor = gridActor
   }
 
+  /**
+   *
+   * @param {String} imageId
+   * @param {Vector2} gridCoordinate
+   * @param {Boolean} debug
+   */
   constructor(imageId, gridCoordinate, debug = true) {
     this.imageId = imageId
     this.gridCoordinate = gridCoordinate
@@ -59,6 +64,10 @@ export default class OrthographicTile {
     let color = Color.GREEN
     if ((this.gridCoordinate.x + this.gridCoordinate.y) % 2 === 0) {
       color = Color.WHITE
+    }
+
+    if (this.actor?.Selected && this.actor?.isPlayer) {
+      color = Color.YELLOW
     }
 
     this.shapeRenderer.begin()

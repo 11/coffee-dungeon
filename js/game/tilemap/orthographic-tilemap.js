@@ -2,6 +2,7 @@ import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
 import { InternalError } from '../../engine/errors.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
 import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
+import Color from '../../engine/gfx/color.js'
 
 import OrthographicTile from './orthographic-tile.js'
 import Wizard from '../actors/player/wizard.js'
@@ -20,14 +21,14 @@ export default class OrthographicTilemap {
 
   static GameObjects = {
     skull: (tilemap, attributes) => new Skull(tilemap, attributes),
-    wizard: (tilemap, attributes) => new Wizard(tilemap, attributes)
+    wizard: (tilemap, attributes) => new Wizard(tilemap, attributes),
   }
 
   get Dimensions() {
     return this.dimensions
   }
 
-  get map() {
+  get Map() {
     return this.map
   }
 
@@ -83,6 +84,24 @@ export default class OrthographicTilemap {
 
   /**
    *
+   * @param {Vector2} gridPosition
+   * @return {OrthographicTile}
+   */
+  getTile(gridPosition) {
+    if (
+      gridPosition.x >= this.dimensions.x ||
+      gridPosition.y >= this.dimensions.y ||
+      gridPosition.x < 0 ||
+      gridPosition.y < 0
+    ) {
+      return null
+    }
+
+    return this.map[gridPosition.x][gridPosition.y]
+  }
+
+  /**
+   *
    * @param {Vector2} levelJson
    * @return {Tile[][]}
    */
@@ -119,15 +138,29 @@ export default class OrthographicTilemap {
     return grid
   }
 
-  /**
-   *
-   * @param {SpriteRenderer} spriteRenderer
-   */
-  #drawGrid(spriteRenderer) {
-    for (let i = 0; i < this.map.length; i++) {
-      for (let j = 0; j < this.map[i].length; j++) {
-        const tile = this.map[i][j]
-        tile.draw(spriteRenderer)
+  #drawGrid() {
+    for (let i = 0; i < this.dimensions.x; i++) {
+      for ( let j = 0; j < this.dimensions.y; j++) {
+        this.shapeRenderer.begin()
+        let color = Color.GREEN
+        if ((i + j) % 2 === 0) {
+          color = Color.WHITE
+        }
+
+        if (this.actor?.Selected && this.actor?.isPlayer) {
+          color = Color.YELLOW
+        }
+
+        const pos = OrthographicTilemap.mapToGlobal(new Vector2(i, j))
+
+        this.shapeRenderer.FillStyle = color
+        this.shapeRenderer.drawRectangle(
+          pos.x - OrthographicTile.TILE_SIZE / 2,
+          pos.y - OrthographicTile.TILE_SIZE / 2,
+          OrthographicTile.TILE_SIZE,
+          OrthographicTile.TILE_SIZE
+        )
+        this.shapeRenderer.end()
       }
     }
   }
@@ -151,7 +184,7 @@ export default class OrthographicTilemap {
    * @param {SpriteRenderer} spriteRenderer
    */
   draw(spriteRenderer) {
-    this.#drawGrid(spriteRenderer)
+    this.#drawGrid()
     this.#drawActors(spriteRenderer)
   }
 

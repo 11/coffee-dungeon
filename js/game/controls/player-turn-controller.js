@@ -6,6 +6,7 @@ import { Vector2 } from '../../engine/threejs-math/index.js'
 
 export default class PlayerTurnController extends InputManager {
   tilemap = null
+  selectedCharacter = null
 
   /**
    *
@@ -26,8 +27,10 @@ export default class PlayerTurnController extends InputManager {
     for (const character of players) {
       if (tilePosition.equals(character.GridPosition)) {
         character.Selected = !character.Selected
+        this.selectedCharacter = character
       } else {
         character.Selected = false
+        this.selectedCharacter = null
       }
     }
   }
@@ -77,7 +80,7 @@ export default class PlayerTurnController extends InputManager {
    * @param {Vector2} mouseCoordinates
    */
   mouseMoved(mouseCoordinates) {
-    console.log('Mouse Moved', mouseCoordinates)
+    // console.log('Mouse Moved', mouseCoordinates)
   }
 
   /**

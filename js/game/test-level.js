@@ -15,7 +15,8 @@ export const level = {
         energy: 3,
         maxEnergy: 3,
         health: 3,
-        maxHelath: 3,
+        maxHealth: 3,
+        range: 2,
         gridPosition: {
           x: 5,
           y: 3

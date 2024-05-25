@@ -70,6 +70,8 @@ export default class GridActor {
       health: 3,
       // Number
       maxHelath: 3,
+      // Number
+      range: 1,
       // Vector2
       gridPosition: new Vector2(0, 0),
     }
@@ -77,11 +79,23 @@ export default class GridActor {
     this.shapeRenderer = new ShapeRenderer()
     this.tilemap = tilemap
 
-    this.attributes = attributes
+    this.attributes = this.#normalizeAttributes(attributes)
 
-    this.healthComponent = new HealthComponent(attributes.health)
-    this.positionComponent = new PositionComponent(tilemap, attributes.gridPosition)
-    this.energyComponent = new EnergyComponent(attributes.energy)
+    this.healthComponent = new HealthComponent(this.attributes.health)
+    this.positionComponent = new PositionComponent(tilemap, this.attributes.gridPosition)
+    this.energyComponent = new EnergyComponent(this.attributes.energy)
+  }
+
+  /**
+   *
+   * @param {Object} attributes
+   * @returns {Object}
+   */
+  #normalizeAttributes(attributes) {
+    return {
+      ...attributes,
+      gridPosition: new Vector2().copy(attributes.gridPosition)
+    }
   }
 
   update() { }

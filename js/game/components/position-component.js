@@ -33,7 +33,7 @@ export default class PositionComponent {
    */
   constructor(tilemap, startGridPosition) {
     this.tilemap = tilemap
-    this.gridPosition =startGridPosition
+    this.gridPosition = startGridPosition
   }
 
   /**
