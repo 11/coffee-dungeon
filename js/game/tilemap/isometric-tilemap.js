@@ -1,8 +1,8 @@
 import IsometricTile from './isometric-tile.js'
-import ShapeRenderer from '../gfx/shape-renderer.js'
-import { isInsideTriangleArea } from '../math.js'
-import { Vector2 } from '../threejs-math/index.js'
-import { NotImplementedError } from '../errors.js'
+import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
+import { isInsideTriangleArea } from '../../engine/math.js'
+import { Vector2 } from '../../engine/threejs-math/index.js'
+import { NotImplementedError } from '../../engine/errors.js'
 
 export default class IsometricTilemap {
   debug = false

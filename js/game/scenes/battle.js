@@ -4,14 +4,11 @@ import Controller from '../controls/controller.js'
 import PlayerTurnController from '../controls/player-turn-controller.js'
 import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
 import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
-import { Vector2 } from '../../engine/threejs-math/index.js'
 // import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
 // import IsometricTile from '../../engine/tilemap/isometric-tile.js'
 // import OrthographicTile from '../../engine/tilemap/orthographic-tile.js'
-import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
-import GridActor from '../actors/grid-actor.js'
-import Wizard from '../actors/player/wizard.js'
-import Skull from '../actors/enemies/skull.js'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
+import { level } from '../test-level.js'
 
 export const BattleStates = {
   // ENVIRONMENTAL_MOVE: 0,
@@ -25,9 +22,9 @@ export default class Battle extends Scene {
   camera = null
   spriteRenderer = null
 
-  skulls = null
+  players = null
+  enemies = null
   town = null
-  wizard = null
 
   battleState = null
   battleStateChangeFlag = true
@@ -45,28 +42,37 @@ export default class Battle extends Scene {
     //   -OrthographicTile.SCREEN_SIZE_Y * 2
     // )
 
-
     // load game world
     // this.grid = new IsometricTileMap(new Vector2(8, 8), null, this.debug)
-    this.tilemap = new OrthographicTilemap(new Vector2(8, 8), this.camera, this.debug)
+
+    // this.towns = [
+    //   new GridActor(this.tilemap, {
+    //     class: 'GridActor',
+    //     imageId: 'decal-house',
+    //     gridPosition: new Vector2(3, 2),
+    //     health: 2
+    //   }),
+    //   new GridActor(this.tilemap, {
+    //     imageId: 'decal-house',
+    //     gridPosition: new Vector2(0, 5),
+    //     health: 2
+    //   }),
+    // ]
+
+    // this.grave = new GridActor(this.tilemap, {
+    //   imageId: 'decal-grave',
+    //   gridPosition: new Vector2(4, 7)
+    // })
+
+    this.tilemap = new OrthographicTilemap(
+      level,
+      this.camera,
+      window.game.Debug
+    )
 
     // configure game inputs
     // window.game.InputManager = new Controller(this.camera)
-    window.game.InputManager = new Controller(this.camera, this.tilemap)
-
-    this.skulls = [
-      new Skull(new Vector2(5, 1), this.tilemap, 3),
-      new Skull(new Vector2(1, 5), this.tilemap, 3),
-      new Skull(new Vector2(4, 1), this.tilemap, 3),
-    ]
-
-    this.towns = [
-      new GridActor('decal-house', new Vector2(3, 2), this.tilemap, 2),
-      new GridActor('decal-church', new Vector2(0, 5), this.tilemap, 2),
-    ]
-
-    this.grave = new GridActor('decal-grave', new Vector2(4, 7), this.tilemap, 0)
-    this.wizard = new Wizard(new Vector2(5, 3), this.tilemap, 3)
+    window.game.InputManager = new Controller(this.tilemap)
 
     this.battleState = BattleStates.PLAYER_MOVE
   }
@@ -79,8 +85,10 @@ export default class Battle extends Scene {
     switch(this.battleState) {
     case BattleStates.PLAYER_MOVE: {
       if (this.battleStateChangeFlag) {
-        window.game.InputManager = new PlayerTurnController([this.wizard], this.tilemap)
+        window.game.InputManager = new PlayerTurnController(this.tilemap)
         this.battleStateChangeFlag = false
+
+
       }
       break
     }
@@ -90,9 +98,5 @@ export default class Battle extends Scene {
   draw(ctx) {
     ScreenUtils.clear(ctx)
     this.tilemap.draw(this.spriteRenderer, this.camera)
-    this.skulls.forEach(s => s.draw(this.spriteRenderer))
-    this.towns.forEach(t => t.draw(this.spriteRenderer))
-    this.wizard.draw(this.spriteRenderer)
-    this.grave.draw(this.spriteRenderer)
   }
 }

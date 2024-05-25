@@ -1,9 +1,9 @@
-import { Vector2 } from '../threejs-math/index.js'
-import Color from '../gfx/color.js'
-import TextureRegion from '../assets/texture-region.js'
-import SpriteRenderer from '../gfx/sprite-renderer.js'
-import ShapeRenderer from '../gfx/shape-renderer.js'
-import OrthographicCamera from '../gfx/orthographic-camera.js'
+import { Vector2 } from '../../engine/threejs-math/index.js'
+import Color from '../../engine/gfx/color.js'
+import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
+import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
+import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
+import TextureRegion from '../../engine/assets/texture-region.js'
 
 export default class IsometricTile {
   static WORLD_SIZE = 64

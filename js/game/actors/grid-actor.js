@@ -1,67 +1,93 @@
 import { Vector2 } from '../../engine/threejs-math/index.js'
 import Color from '../../engine/gfx/color.js'
-import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
-import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
-import OrthographicTile from '../../engine/tilemap/orthographic-tile.js'
 import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
 import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
 
+import IsometricTilemap from '../tilemap/isometric-tilemap.js'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
+import OrthographicTile from '../tilemap/orthographic-tile.js'
 import HealthComponent from '../components/health-component.js'
-import GridPositionComponent from '../components/grid-position-component.js'
+import PositionComponent from '../components/position-component.js'
 import EnergyComponent from '../components/energy-component.js'
 
 export default class GridActor {
-  imageId = null
-  healthComponent = null
-  gridPositionComponent = null
-  energyComponent = null
-  selected = false
-
+  /**
+   * Engine objects
+   * @summary engine objects are tools you need do some kind of fundemental operation
+   */
   shapeRenderer = null
-
-  get GridPosition() {
-    return this.gridPositionComponent.GridPosition
-  }
+  tilemap = null
 
   /**
-   *
-   * @return {Boolean} selected
+   * Attributes
+   * @summary attributes object stores all the inital values for a grid actor
    */
+  attributes = null
+
+  /**
+   * Compoents
+   * @summay Components store a specific set of info and some helper functions that are coupled with that variable
+   */
+  healthComponent = null
+  positionComponent = null
+  energyComponent = null
+
+  /**
+   * Properties
+   * @summary properties are variables that are game related and don't belong in a component
+   */
+  selected = false
+
+  get GridPosition() {
+    return this.positionComponent.GridPosition
+  }
+
   get Selected() {
     return this.selected
   }
 
-  /**
-   *
-   * @param {Boolean} value
-   */
   set Selected(value) {
     this.selected = value
   }
 
   /**
    *
-   * @param {String} imageId
-   * @param {Vector2} startPosition
    * @param {IsometricTilemap | OrthographicTilemap} tilemap
-   * @param {Number} health
-   * @param {Number} energy
+   * @param {Object} attributes
    */
-  constructor(imageId, startPosition, tilemap, health = 3, energy = 3) {
-    this.imageId = imageId
-    this.healthComponent = new HealthComponent(health)
-    this.gridPositionComponent = new GridPositionComponent(startPosition, tilemap)
-    this.energyComponent = new EnergyComponent(energy)
-
+  constructor(
+    tilemap,
+    attributes = {
+      // String
+      class: null,
+      // String | null
+      imageId: null,
+      // Number
+      energy: 3,
+      // Number
+      maxEnergy: 3,
+      // Number
+      health: 3,
+      // Number
+      maxHelath: 3,
+      // Vector2
+      gridPosition: new Vector2(0, 0),
+    }
+  ) {
     this.shapeRenderer = new ShapeRenderer()
+    this.tilemap = tilemap
+
+    this.attributes = attributes
+
+    this.healthComponent = new HealthComponent(attributes.health)
+    this.positionComponent = new PositionComponent(tilemap, attributes.gridPosition)
+    this.energyComponent = new EnergyComponent(attributes.energy)
   }
 
-  update() {
-
-  }
+  update() { }
 
   #drawHealthBar() {
-    const gridCellPosition = this.gridPositionComponent.ScreenPosition
+    const gridCellPosition = this.positionComponent.ScreenPosition
 
     const maxHealth = this.healthComponent.MaxHealth
     const currentHealth = this.healthComponent.Health
@@ -103,15 +129,26 @@ export default class GridActor {
    * @param {SpriteRenderer} spriteRenderer
    */
   draw(spriteRenderer) {
-    const position = this.gridPositionComponent.ScreenPosition
+    const position = this.positionComponent.ScreenPosition
     position.subScalar(OrthographicTile.TILE_SIZE / 4)
 
     spriteRenderer.begin()
-    spriteRenderer.drawImage(this.imageId, position, OrthographicTile.TILE_SIZE / 2, OrthographicTile.TILE_SIZE / 2)
+    spriteRenderer.drawImage(this.attributes.imageId, position, OrthographicTile.TILE_SIZE / 2, OrthographicTile.TILE_SIZE / 2)
     spriteRenderer.end()
 
     if (this.selected) {
       this.#drawHealthBar()
+    }
+  }
+
+  toJSON() {
+    return {
+      ...this.attributes,
+      gridPosition: this.positionComponent.GridPosition.toArray(),
+      health: this.healthComponent.Health,
+      maxHealth: this.healthComponent.MaxHealth,
+      energy: this.energyComponent.Energy,
+      maxEnergy: this.energyComponent.MaxEnergy
     }
   }
 }

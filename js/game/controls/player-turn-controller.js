@@ -1,11 +1,10 @@
 import InputManager from '../../engine/io/input-manager.js'
 import GridActor from '../actors/grid-actor.js'
-import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
-import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
+import IsometricTilemap from '../tilemap/isometric-tilemap.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
 
 export default class PlayerTurnController extends InputManager {
-  players = null
   tilemap = null
 
   /**
@@ -13,11 +12,36 @@ export default class PlayerTurnController extends InputManager {
    * @param {GridActor[]} players
    * @param {OrthographicTilemap | IsometricTilemap} tilemap
    */
-  constructor(players, tilemap) {
+  constructor(tilemap) {
     super()
 
-    this.players = players
     this.tilemap = tilemap
+  }
+
+
+  #mousePressedPlayerPiece(mouseCoordinates) {
+    const tilePosition = OrthographicTilemap.mapToLocal(mouseCoordinates)
+
+    const players = this.tilemap.Players
+    for (const character of players) {
+      if (tilePosition.equals(character.GridPosition)) {
+        character.Selected = !character.Selected
+      } else {
+        character.Selected = false
+      }
+    }
+  }
+
+  #mousePressedEnemy(mouseCoordinates) {
+    const tilePosition = OrthographicTilemap.mapToLocal(mouseCoordinates)
+    const enemies = this.tilemap.Enemies
+    for (const enemey of enemies) {
+      if (tilePosition.equals(enemey.GridPosition)) {
+        enemey.Selected = !enemey.Selected
+      } else {
+        enemey.Selected = false
+      }
+    }
   }
 
   /**
@@ -44,12 +68,8 @@ export default class PlayerTurnController extends InputManager {
    * @param {Vector2} mouseCoordinates
    */
   mousePressed(keycode, mouseCoordinates) {
-    const tilePosition = OrthographicTilemap.mapToLocal(mouseCoordinates)
-    for (const character of this.players) {
-      if (tilePosition.equals(character.GridPosition)) {
-        character.Selected = !character.Selected
-      }
-    }
+    this.#mousePressedPlayerPiece(mouseCoordinates)
+    this.#mousePressedEnemy(mouseCoordinates)
   }
 
   /**

@@ -2,8 +2,18 @@ import SpriteRenderer from '../../../engine/gfx/sprite-renderer.js'
 import GridActor from '../grid-actor.js'
 
 export default class Skull extends GridActor {
-  constructor(startPosition, tilemap, health = 3, energy = 3) {
-    super('entity-skull', startPosition, tilemap, health, energy)
+  get isPlayer() {
+    return false
+  }
+
+  get isEnemy() {
+    return true
+  }
+
+  constructor(tilemap, attributes = {}) {
+    attributes.imageId = 'entity-skull'
+    attributes.class = 'Skull'
+    super(tilemap, attributes)
   }
 
   attack() {

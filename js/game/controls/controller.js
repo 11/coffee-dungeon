@@ -1,10 +1,9 @@
 import InputManager from '../../engine/io/input-manager.js'
 import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
-import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
-import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
+import IsometricTilemap from '../tilemap/isometric-tilemap.js'
 import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
 import Color from '../../engine/gfx/color.js'
-import Tile from '../../engine/tilemap/isometric-tile.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
 
 export default class Controller extends InputManager {

@@ -1,6 +1,8 @@
-import ShapeRenderer from '../gfx/shape-renderer.js'
-import SpriteRenderer from '../gfx/sprite-renderer.js'
-import Color from '../gfx/color.js'
+import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
+import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
+import Color from '../../engine/gfx/color.js'
+
+import GridActor from '../../game/actors/grid-actor.js'
 
 export default class OrthographicTile {
   static TILE_SIZE = 96
@@ -11,6 +13,8 @@ export default class OrthographicTile {
   shapeRenderer = null
   debug = null
 
+  actor = null
+
   get ImageId() {
     return this.imageId
   }
@@ -19,9 +23,30 @@ export default class OrthographicTile {
     return this.gridCoordinate
   }
 
+  get Populated() {
+    return this.actor !== null
+  }
+
+  /**
+   *
+   * @returns {GridActor}
+   */
+  get Actor() {
+    return this.actor
+  }
+
+  /**
+   *
+   * @param {GridActor}
+   */
+  set Actor(gridActor) {
+    this.actor = gridActor
+  }
+
   constructor(imageId, gridCoordinate, debug = true) {
     this.imageId = imageId
     this.gridCoordinate = gridCoordinate
+    this.populated = false
 
     this.debug = debug
     this.shapeRenderer = new ShapeRenderer()

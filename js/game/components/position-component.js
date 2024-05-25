@@ -1,8 +1,8 @@
 import { Vector2 } from '../../engine/threejs-math/index.js'
-import OrthographicTilemap from '../../engine/tilemap/orthographic-tilemap.js'
-import IsometricTilemap from '../../engine/tilemap/isometric-tilemap.js'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
+import IsometricTilemap from '../tilemap/isometric-tilemap.js'
 
-export default class GridPositionComponent {
+export default class PositionComponent {
   gridPosition = null
   tilemap = null
 
@@ -28,12 +28,12 @@ export default class GridPositionComponent {
 
   /**
    *
-   * @param {Vector2} initialPosition
    * @param {OrthographicTilemap | IsometricTilemap}
+   * @param {Vector2} startGridPosition
    */
-  constructor(initialPosition, tilemap) {
-    this.gridPosition = initialPosition
+  constructor(tilemap, startGridPosition) {
     this.tilemap = tilemap
+    this.gridPosition =startGridPosition
   }
 
   /**

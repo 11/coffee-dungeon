@@ -420,6 +420,14 @@ class Vector2 {
 
 	}
 
+	toJSON() {
+		return {
+			class: "Vector2",
+			x: this.x,
+			y: this.y,
+		}
+	}
+
 	// fromBufferAttribute( attribute, index ) {
 
 	// 	this.x = attribute.getX( index );
