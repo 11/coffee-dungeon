@@ -16,7 +16,7 @@ export const level = {
         maxEnergy: 3,
         health: 3,
         maxHealth: 3,
-        range: 2,
+        range: 3,
         gridPosition: {
           x: 5,
           y: 3
@@ -61,8 +61,8 @@ export const level = {
     },
     {
       cell: {
-        x: 4,
-        y: 1
+        x: 3,
+        y: 0
       },
       actor: {
         class: 'skull',
@@ -72,8 +72,8 @@ export const level = {
         health: 3,
         maxHealth: 3,
         gridPosition: {
-          x: 4,
-          y: 1
+          x: 3,
+          y: 0
         }
       }
     }
