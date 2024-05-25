@@ -158,7 +158,7 @@ export default class GridActor {
   toJSON() {
     return {
       ...this.attributes,
-      gridPosition: this.positionComponent.GridPosition.toArray(),
+      gridPosition: this.positionComponent.GridPosition.toJSON(),
       health: this.healthComponent.Health,
       maxHealth: this.healthComponent.MaxHealth,
       energy: this.energyComponent.Energy,
