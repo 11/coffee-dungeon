@@ -39,7 +39,7 @@ export default class MovementRangeComponent {
    * @param {Number} range
    * @return {Vector2[]}
    */
-  #findPositionsInRange (gridPosition, range) {
+  #findPositionsInRange(gridPosition, range) {
     if (!gridPosition) {
       throw new InternalError('Invalid grid position')
     }
@@ -67,7 +67,7 @@ export default class MovementRangeComponent {
       for (const n of neighbors) {
         const isPopulated = this.tilemap.getTile(n)?.Populated ?? true
         const isOutOfRange = (Math.abs(gridPosition.x - n.x) + Math.abs(gridPosition.y - n.y)) > range
-        if(isPopulated || isOutOfRange) {
+        if (isPopulated || isOutOfRange) {
           outOfRange[n.toHash()] = n
           continue
         }
@@ -91,7 +91,7 @@ export default class MovementRangeComponent {
     return this.cellsInRange.has(gridPosition)
   }
 
-  updateRange() {
+  resetRange() {
     this.cellsInRange = this.#findPositionsInRange(this.gridPosition, this.range)
   }
 

@@ -50,6 +50,14 @@ export default class GridActor {
     this.selected = value
   }
 
+  get IsPlayer() {
+    return false
+  }
+
+  get IsEnemy() {
+    return false
+  }
+
   /**
    *
    * @param {IsometricTilemap | OrthographicTilemap} tilemap
@@ -98,7 +106,12 @@ export default class GridActor {
     }
   }
 
-  update() { }
+  /**
+   * this should be overrided
+   */
+  update() {
+
+  }
 
   #drawHealthBar() {
     const gridCellPosition = this.positionComponent.ScreenPosition

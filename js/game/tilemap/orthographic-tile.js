@@ -66,7 +66,7 @@ export default class OrthographicTile {
       color = Color.WHITE
     }
 
-    if (this.actor?.Selected && this.actor?.isPlayer) {
+    if (this.actor?.Selected && this.actor?.IsPlayer) {
       color = Color.YELLOW
     }
 

@@ -25,6 +25,25 @@ export const level = {
     },
     {
       cell: {
+        x: 1,
+        y: 1
+      },
+      actor: {
+        class: 'town',
+        imageId: 'decal-house',
+        energy: 3,
+        maxEnergy: 3,
+        health: 3,
+        maxHealth: 3,
+        range: 3,
+        gridPosition: {
+          x: 1,
+          y: 1
+        }
+      }
+    },
+    {
+      cell: {
         x: 5,
         y: 1
       },

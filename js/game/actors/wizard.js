@@ -1,6 +1,6 @@
-import SpriteRenderer from '../../../engine/gfx/sprite-renderer.js'
-import GridActor from '../grid-actor.js'
-import MovementRangeComponent from '../../components/movement-range-component.js'
+import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
+import GridActor from './grid-actor.js'
+import MovementRangeComponent from '../components/movement-range-component.js'
 
 export default class Wizard extends GridActor {
   movementRangeComponent = null
@@ -15,11 +15,11 @@ export default class Wizard extends GridActor {
     this.held = value
   }
 
-  get isPlayer() {
+  get IsPlayer() {
     return true
   }
 
-  get isEnemy() {
+  get IsEnemy() {
     return false
   }
 

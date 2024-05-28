@@ -1,5 +1,5 @@
-import SpriteRenderer from '../../../engine/gfx/sprite-renderer.js'
-import GridActor from '../grid-actor.js'
+import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
+import GridActor from './grid-actor.js'
 
 export default class Skull extends GridActor {
   get isPlayer() {
@@ -12,7 +12,8 @@ export default class Skull extends GridActor {
 
   constructor(tilemap, attributes = {}) {
     attributes.imageId = 'entity-skull'
-    attributes.class = 'Skull'
+    attributes.class = 'skull'
+
     super(tilemap, attributes)
   }
 

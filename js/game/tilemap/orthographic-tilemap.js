@@ -5,8 +5,9 @@ import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
 import Color from '../../engine/gfx/color.js'
 
 import OrthographicTile from './orthographic-tile.js'
-import Wizard from '../actors/player/wizard.js'
-import Skull from '../actors/enemies/skull.js'
+import Wizard from '../actors/wizard.js'
+import Skull from '../actors/skull.js'
+import Town from '../actors/town.js'
 
 export default class OrthographicTilemap {
   debug = false
@@ -18,10 +19,12 @@ export default class OrthographicTilemap {
 
   players = null
   enemies = null
+  objectives = null
 
   static GameObjects = {
     skull: (tilemap, attributes) => new Skull(tilemap, attributes),
     wizard: (tilemap, attributes) => new Wizard(tilemap, attributes),
+    town: (tilemap, attributes) => new Town(tilemap, attributes),
   }
 
   get Dimensions() {
@@ -38,6 +41,10 @@ export default class OrthographicTilemap {
 
   get Enemies() {
     return this.enemies
+  }
+
+  get Objectives() {
+    return this.objectives
   }
 
   /**
@@ -68,13 +75,10 @@ export default class OrthographicTilemap {
    * @param {JSON} levelJson
    * @param {OrthographicCamera} camera
    */
-  constructor(
-    levelJson,
-    camera = null,
-    debug = false
-  ) {
+  constructor( levelJson, camera = null, debug = false) {
     this.players = []
     this.enemies = []
+    this.objectives = []
     this.map = this.#loadLevel(levelJson)
 
     this.camera = camera
@@ -126,10 +130,12 @@ export default class OrthographicTilemap {
 
       const newActor = OrthographicTilemap.GameObjects[actorAttributes.class]
       const actor = newActor(this, actorAttributes)
-      if (actor.isPlayer) {
+      if (actor.IsPlayer) {
         this.players.push(actor)
-      } if (actor.isEnemy) {
+      } else if (actor.IsEnemy) {
         this.enemies.push(actor)
+      } else {
+        this.objectives.push(actor)
       }
 
       grid[pos.x][pos.y].Actor = actor
@@ -176,6 +182,10 @@ export default class OrthographicTilemap {
 
     for (const e of this.enemies) {
       e.draw(spriteRenderer)
+    }
+
+    for (const o of this.objectives) {
+      o.draw(spriteRenderer)
     }
   }
 
