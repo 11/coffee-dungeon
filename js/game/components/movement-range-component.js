@@ -2,6 +2,7 @@ import { InternalError } from '../../engine/errors.js'
 import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
 import { Vector2 } from '../../engine/threejs-math/index.js'
 import Color from '../../engine/gfx/color.js'
+import HashSet from '../../engine/collections/hash-set.js'
 
 import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
 import OrthographicTile from '../tilemap/orthographic-tile.js'
@@ -12,6 +13,8 @@ export default class MovementRangeComponent {
   range = null
   gridPosition = null
   tilemap = null
+
+  cellsInRange = null
 
   /**
    *
@@ -25,12 +28,15 @@ export default class MovementRangeComponent {
     this.tilemap = tilemap
 
     this.shapeRenderer = new ShapeRenderer()
+    this.positionsInRange = []
+    this.cellsInRange = null
   }
 
   /**
    * Runs BFS on tilemap and find all non-populated cells that are in range
    *
    * @param {Vector2} gridPosition
+   * @param {Number} range
    * @return {Vector2[]}
    */
   #findPositionsInRange (gridPosition, range) {
@@ -74,12 +80,27 @@ export default class MovementRangeComponent {
       }
     }
 
-    return Object.values(seen)
+    return new HashSet(Object.values(seen))
+  }
+
+  /**
+   *
+   * @param {Vector2} gridPosition
+   */
+  isPositionInRange(gridPosition) {
+    return this.cellsInRange.has(gridPosition)
+  }
+
+  updateRange() {
+    this.cellsInRange = this.#findPositionsInRange(this.gridPosition, this.range)
   }
 
   draw() {
-    const positions = this.#findPositionsInRange(this.gridPosition, this.range)
-    for (const pos of positions) {
+    if (!this.cellsInRange) {
+      this.cellsInRange = this.#findPositionsInRange(this.gridPosition, this.range)
+    }
+
+    for (const pos of this.cellsInRange) {
       const screenPos = OrthographicTilemap.mapToGlobal(pos)
       screenPos.subScalar(OrthographicTile.TILE_SIZE / 2)
 

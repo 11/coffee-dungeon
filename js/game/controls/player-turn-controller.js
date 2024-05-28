@@ -6,7 +6,7 @@ import { Vector2 } from '../../engine/threejs-math/index.js'
 
 export default class PlayerTurnController extends InputManager {
   tilemap = null
-  selectedCharacter = null
+  selectedPlayer = null
 
   /**
    *
@@ -19,18 +19,17 @@ export default class PlayerTurnController extends InputManager {
     this.tilemap = tilemap
   }
 
-
-  #mousePressedPlayerPiece(mouseCoordinates) {
+  #mousePressedPlayer(mouseCoordinates) {
     const tilePosition = OrthographicTilemap.mapToLocal(mouseCoordinates)
 
     const players = this.tilemap.Players
     for (const character of players) {
       if (tilePosition.equals(character.GridPosition)) {
         character.Selected = !character.Selected
-        this.selectedCharacter = character
+        this.selectedPlayer = character
       } else {
         character.Selected = false
-        this.selectedCharacter = null
+        this.selectedPlayer = null
       }
     }
   }
@@ -53,7 +52,9 @@ export default class PlayerTurnController extends InputManager {
    * @param {Vector2} mouseCoordinates
    */
   mouseUp(keycode, mouseCoordinates) {
-    console.log('Mouse Up', keycode, mouseCoordinates)
+    if (!!this.selectedPlayer) {
+      this.selectedPlayer.Held = false
+    }
   }
 
   /**
@@ -62,7 +63,10 @@ export default class PlayerTurnController extends InputManager {
    * @param {Vector2} mouseCoordinates
    */
   mouseDown(keycode, mouseCoordinates) {
-    console.log('Mouse Down', keycode, mouseCoordinates)
+    const selectedTile = OrthographicTilemap.mapToLocal(mouseCoordinates)
+    if (!!this.selectedPlayer && selectedTile.equals(this.selectedPlayer.GridPosition)) {
+      this.selectedPlayer.Held = true
+    }
   }
 
   /**
@@ -71,7 +75,7 @@ export default class PlayerTurnController extends InputManager {
    * @param {Vector2} mouseCoordinates
    */
   mousePressed(keycode, mouseCoordinates) {
-    this.#mousePressedPlayerPiece(mouseCoordinates)
+    this.#mousePressedPlayer(mouseCoordinates)
     this.#mousePressedEnemy(mouseCoordinates)
   }
 
@@ -80,7 +84,10 @@ export default class PlayerTurnController extends InputManager {
    * @param {Vector2} mouseCoordinates
    */
   mouseMoved(mouseCoordinates) {
-    // console.log('Mouse Moved', mouseCoordinates)
+    const selectedTile = OrthographicTilemap.mapToLocal(mouseCoordinates)
+    if (!!this.selectedPlayer && this.selectedPlayer.Held) {
+      this.selectedPlayer.move(selectedTile)
+    }
   }
 
   /**

@@ -5,6 +5,16 @@ import MovementRangeComponent from '../../components/movement-range-component.js
 export default class Wizard extends GridActor {
   movementRangeComponent = null
 
+  held = false
+
+  get Held() {
+    return this.held
+  }
+
+  set Held(value) {
+    this.held = value
+  }
+
   get isPlayer() {
     return true
   }
@@ -16,10 +26,21 @@ export default class Wizard extends GridActor {
   constructor(tilemap, attributes = {}) {
     attributes.imageId = 'entity-wizard'
     attributes.class = 'wizard'
-
     super(tilemap, attributes)
 
     this.movementRangeComponent = new MovementRangeComponent(attributes.range, this.positionComponent.GridPosition, this.tilemap)
+
+    this.held = false
+  }
+
+  /**
+   *
+   * @param {Vector2} gridPosition
+   */
+  move(gridPosition) {
+    if (this.movementRangeComponent.isPositionInRange(gridPosition)) {
+      this.positionComponent.GridPosition = gridPosition
+    }
   }
 
   attack() {

@@ -16,6 +16,14 @@ export default class PositionComponent {
 
   /**
    *
+   * @param {value} Vector2
+   */
+  set GridPosition(value) {
+    this.gridPosition = value
+  }
+
+  /**
+   *
    * @return {Vector2} screenPosition
    */
   get ScreenPosition() {

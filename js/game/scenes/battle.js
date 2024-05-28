@@ -83,15 +83,14 @@ export default class Battle extends Scene {
    */
   update(deltaTime) {
     switch(this.battleState) {
-    case BattleStates.PLAYER_MOVE: {
-      if (this.battleStateChangeFlag) {
-        window.game.InputManager = new PlayerTurnController(this.tilemap)
-        this.battleStateChangeFlag = false
+      case BattleStates.PLAYER_MOVE: {
+        if (this.battleStateChangeFlag) {
+          window.game.InputManager = new PlayerTurnController(this.tilemap)
+          this.battleStateChangeFlag = false
+        }
 
-
+        break
       }
-      break
-    }
     }
   }
 
