@@ -55,7 +55,7 @@ export default class MovementRangeComponent {
 
     while (queue.length > 0) {
       const node = queue.shift()
-      seen[`${node.x}${node.y}`] = node
+      seen[node.toHash()] = node
 
       const neighbors = [
         node.clone().setY(node.y - 1), // north
@@ -68,11 +68,11 @@ export default class MovementRangeComponent {
         const isPopulated = this.tilemap.getTile(n)?.Populated ?? true
         const isOutOfRange = (Math.abs(gridPosition.x - n.x) + Math.abs(gridPosition.y - n.y)) > range
         if(isPopulated || isOutOfRange) {
-          outOfRange[`${n.x}${n.y}`] = n
+          outOfRange[n.toHash()] = n
           continue
         }
 
-        const key = `${n.x}${n.y}`
+        const key = n.toHash()
         const value = seen[key] || outOfRange[key]
         if (!value) {
           queue.push(n)
