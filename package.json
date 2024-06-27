@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "jest",
-    "dev": "./bin/dev.sh"
+    "dev": "echo 'Running http://localhost:8000' && python3 -m http.server",
+    "build": "tsc && node ./scripts/fix-imports.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,8 @@
     "@babel/preset-env": "^7.24.0",
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "typescript": "^5.4.5"
   }
 }
