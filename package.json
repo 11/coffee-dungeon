@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "test": "jest",
-    "dev": "./bin/dev.sh",
-    "build": "tsc"
+    "dev": "echo 'Running http://localhost:8000' && python3 -m http.server",
+    "build": "tsc && node ./scripts/fix-imports.js"
   },
   "author": "",
   "license": "ISC",
