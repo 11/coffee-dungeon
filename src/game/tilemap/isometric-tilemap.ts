@@ -1,10 +1,10 @@
-import IsometricTile from './isometric-tile.js'
+import IsometricTile from './isometric-tile'
 import ShapeRenderer from '../../engine/gfx/shape-renderer'
-import OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
-import { Vector2 } from '../../engine/math/Vector2.js'
-import { isInsideTriangleArea } from '../../engine/math/MathUtils.js'
-import { NotImplementedError } from '../../engine/errors.js'
-import SpriteRenderer from '../../engine/gfx/sprite-renderer.js'
+import OrthographicCamera from '../../engine/gfx/orthographic-camera'
+import { Vector2 } from '../../engine/math/Vector2'
+import { isInsideTriangleArea } from '../../engine/math/MathUtils'
+import { NotImplementedError } from '../../engine/errors'
+import SpriteRenderer from '../../engine/gfx/sprite-renderer'
 
 export default class IsometricTilemap {
   private shapeRenderer: ShapeRenderer

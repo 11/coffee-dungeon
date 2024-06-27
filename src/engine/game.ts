@@ -1,11 +1,11 @@
-import Keyboard from './io/keyboard.js'
-import Mouse from './io/mouse.js'
-import SceneManager from './scenes/scene-manager.js'
-import AssetManager from './assets/asset-manager.js'
-import Viewport from './gfx/viewport.js'
-import InputManager from './io/input-manager.js'
-import Keybaord from './io/keyboard.js'
-import Scene from './scenes/scene.js'
+import Keyboard from './io/keyboard'
+import Mouse from './io/mouse'
+import SceneManager from './scenes/scene-manager'
+import AssetManager from './assets/asset-manager'
+import Viewport from './gfx/viewport'
+import InputManager from './io/input-manager'
+import Keybaord from './io/keyboard'
+import Scene from './scenes/scene'
 
 const MILLIS_PER_SEC = 1000
 

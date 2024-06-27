@@ -1,11 +1,10 @@
-import { InternalError } from '../../engine/errors.js'
-import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
-import { Vector2 } from '../../engine/math/Vector2.js'
-import Color from '../../engine/gfx/color.js'
-import HashSet from '../../engine/collections/hash-set.js'
-
-import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
-import OrthographicTile from '../tilemap/orthographic-tile.js'
+import { InternalError } from '../../engine/errors'
+import ShapeRenderer from '../../engine/gfx/shape-renderer'
+import { Vector2 } from '../../engine/math/Vector2'
+import Color from '../../engine/gfx/color'
+import HashSet from '../../engine/collections/hash-set'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap'
+import OrthographicTile from '../tilemap/orthographic-tile'
 
 export default class MovementRangeComponent {
   private shapeRenderer: ShapeRenderer

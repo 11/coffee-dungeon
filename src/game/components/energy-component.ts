@@ -1,5 +1,4 @@
-import { clamp } from '../../engine/math/MathUtils.js'
-import { InternalError } from '../../engine/errors.js'
+import { clamp } from '../../engine/math/MathUtils'
 
 export default class EnergyComponent {
   private energy: number

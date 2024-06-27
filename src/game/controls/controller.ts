@@ -1,10 +1,9 @@
-import InputManager from '../../engine/io/input-manager.js'
-import type OrthographicCamera from '../../engine/gfx/orthographic-camera.js'
-import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
-import IsometricTilemap from '../tilemap/isometric-tilemap.js'
-import ShapeRenderer from '../../engine/gfx/shape-renderer.js'
-import Color from '../../engine/gfx/color.js'
-import { Vector2 } from '../../engine/math/Vector2.js'
+import InputManager from '../../engine/io/input-manager'
+import type OrthographicCamera from '../../engine/gfx/orthographic-camera'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap'
+// import IsometricTilemap from '../tilemap/isometric-tilemap'
+import ShapeRenderer from '../../engine/gfx/shape-renderer'
+import { Vector2 } from '../../engine/math/Vector2'
 
 export default class Controller implements InputManager {
   private camera: OrthographicCamera

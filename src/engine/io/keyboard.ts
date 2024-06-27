@@ -1,4 +1,4 @@
-import RotatingQueue from '../collections/rotating-queue.js'
+import RotatingQueue from '../collections/rotating-queue'
 
 export default class Keybaord {
   public static KEY_A = 'KeyA'

@@ -1,7 +1,7 @@
-import { Vector2 } from '../../engine/math/Vector2.js'
-import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
-import IsometricTilemap from '../tilemap/isometric-tilemap.js'
-import { InternalError } from '../../engine/errors.js'
+import { Vector2 } from '../../engine/math/Vector2'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap'
+// import IsometricTilemap from '../tilemap/isometric-tilemap'
+import { InternalError } from '../../engine/errors'
 
 export default class PositionComponent {
   private gridPosition: Vector2

@@ -1,4 +1,4 @@
-import Color from './color.js'
+import Color from './color'
 
 export default class ScreenUtils {
   public static clear(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, fillColor: string = Color.DARK_GRAY) {

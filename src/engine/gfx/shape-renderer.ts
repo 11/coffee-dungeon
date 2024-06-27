@@ -1,6 +1,5 @@
-import Color from './color.js'
-import OrthographicCamera from './orthographic-camera.js'
-import { ValidationError } from '../errors.js'
+import OrthographicCamera from './orthographic-camera'
+import { ValidationError } from '../errors'
 
 export default class ShapeRenderer {
   private ctx: CanvasRenderingContext2D

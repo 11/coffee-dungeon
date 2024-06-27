@@ -1,5 +1,5 @@
-import SpriteRenderer  from '../gfx/sprite-renderer.js'
-import OrthographicCamera from '../gfx/orthographic-camera.js'
+import SpriteRenderer  from '../gfx/sprite-renderer'
+import OrthographicCamera from '../gfx/orthographic-camera'
 
 export default class Actor {
   private x: number

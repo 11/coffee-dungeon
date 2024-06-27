@@ -1,8 +1,8 @@
-import InputManager from '../../engine/io/input-manager.js'
-import OrthographicTilemap from '../tilemap/orthographic-tilemap.js'
-// import IsometricTilemap from '../tilemap/isometric-tilemap.js'
-import { Vector2 } from '../../engine/math/Vector2.js'
-import type Wizard from '../actors/wizard.js'
+import InputManager from '../../engine/io/input-manager'
+import OrthographicTilemap from '../tilemap/orthographic-tilemap'
+// import IsometricTilemap from '../tilemap/isometric-tilemap'
+import { Vector2 } from '../../engine/math/Vector2'
+import type Wizard from '../actors/wizard'
 
 export default class PlayerTurnController implements InputManager {
   private tilemap: OrthographicTilemap

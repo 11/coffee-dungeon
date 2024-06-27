@@ -3,7 +3,7 @@ import Color from '../../engine/gfx/color'
 import ShapeRenderer from '../../engine/gfx/shape-renderer'
 import SpriteRenderer from '../../engine/gfx/sprite-renderer'
 
-import IsometricTilemap from '../tilemap/isometric-tilemap'
+// import IsometricTilemap from '../tilemap/isometric-tilemap'
 import OrthographicTilemap from '../tilemap/orthographic-tilemap'
 import OrthographicTile from '../tilemap/orthographic-tile'
 import HealthComponent from '../components/health-component'

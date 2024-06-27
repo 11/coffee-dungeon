@@ -1,8 +1,7 @@
-
 import OrthographicCamera from './orthographic-camera'
 import TextureRegion from '../assets/texture-region'
 import { NotImplementedError } from '../errors'
-import { Vector2 } from '../math/Vector2.js'
+import { Vector2 } from '../math/Vector2'
 import { NormalizedNumber } from '../math/MathUtils'
 
 export default class SpriteRenderer {
