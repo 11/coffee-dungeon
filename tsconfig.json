@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
       "module": "ES6",
-      "target": "ES6",
-      "outDir": "./js",
+      "outDir": "./dist",
+      "baseUrl": "./",
+      "paths": { "*": ["*", "*.js"] },  // Map all imports to look for .js files
+      "esModuleInterop": true,
       "moduleResolution": "node",
-      "sourceMap": true
+      "declaration": true,
+      "target": "ES6",
+      "importHelpers": true,
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.test.ts"]
